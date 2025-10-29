@@ -1,4 +1,4 @@
-# My Angular Website (template)
+#Angular Website (template)
 
 This is a minimal Angular project template (no dependencies installed). Delete this folder anytime to remove it.
 
