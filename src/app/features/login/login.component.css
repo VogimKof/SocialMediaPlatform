@@ -1,0 +1,68 @@
+.bg-black {
+  background-color: black;
+}
+
+.logo-text {
+  font-weight: bold;
+  font-size: 3.5rem;
+  letter-spacing: -1px;
+  color: #0d6efd !important;
+}
+
+.logo-icon {
+  font-weight: 900;
+  background-color: #0d6efd;
+  color: white !important;
+}
+
+.custom-card {
+  background-color: #1b1c1d;
+}
+
+.custom-input {
+  background-color: #1e1e1e;
+  border: 1px solid #3e4042;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.custom-input:focus {
+  background-color: #1e1e1e;
+  border-color: #0d6efd;
+  color: #fff;
+  box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.3);
+  outline: none;
+}
+
+.custom-input::placeholder {
+  color: #8a8d91;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+.btn-success {
+  background-color: #42b72a;
+  border: none;
+  font-size: 1.1rem;
+}
+
+.btn-success:hover {
+  background-color: #36a420;
+}
+
+a:hover {
+  text-decoration: underline !important;
+}
+
+@media (max-width: 991px) {
+  .logo-text {
+    font-size: 2.5rem;
+  }
+}

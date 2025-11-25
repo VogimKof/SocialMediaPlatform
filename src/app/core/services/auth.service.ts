@@ -14,4 +14,9 @@ export class AuthService {
     
     return of(true).pipe(delay(1500));
   }
+
+  login(credentials: any): Observable<boolean> {
+    console.log('Logowanie:', credentials);
+    return of(true).pipe(delay(1500));
+  }
 }
