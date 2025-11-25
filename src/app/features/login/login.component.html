@@ -1,0 +1,66 @@
+<div class="page-container d-flex align-items-center justify-content-center min-vh-100 bg-black">
+  <div class="container">
+    
+    <div class="row align-items-center justify-content-center">
+      
+      <div class="col-12 col-lg-6 mb-5 mb-lg-0 text-center text-lg-start">
+        <h1 class="logo-text text-primary mb-2">
+          <span class="logo-icon bg-primary text-white rounded px-2 py-1 me-1">B</span>ookface
+        </h1>
+        <h2 class="fs-4 text-white fw-normal mt-3">
+          Platforma społecznościowa w stylu facebook
+        </h2>
+      </div>
+
+      <div class="col-12 col-md-8 col-lg-5 offset-lg-1">
+        <div class="card custom-card p-4 shadow-lg">
+          <div class="card-body">
+            
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              
+              <div class="mb-3">
+                <input type="email" 
+                       class="form-control custom-input py-3" 
+                       [class.is-invalid]="isSubmitted && loginForm.get('email')?.invalid"
+                       formControlName="email" 
+                       placeholder="Adres e-mail">
+                <div class="invalid-feedback">Wpisz poprawny adres e-mail.</div>
+              </div>
+
+              <div class="mb-3">
+                <input type="password" 
+                       class="form-control custom-input py-3" 
+                       [class.is-invalid]="isSubmitted && loginForm.get('password')?.invalid"
+                       formControlName="password" 
+                       placeholder="Hasło">
+                <div class="invalid-feedback">Hasło jest wymagane.</div>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 py-2 fw-bold fs-5 mb-3" [disabled]="isLoading">
+                {{ isLoading ? 'Logowanie...' : 'Zaloguj się' }}
+              </button>
+
+              <div class="text-center mb-4">
+                <a href="#" class="text-primary text-decoration-none small">Nie pamiętasz hasła?</a>
+              </div>
+
+              <hr class="border-secondary my-4">
+
+              <div class="text-center">
+                <button type="button" routerLink="/register" class="btn btn-success fw-bold px-4 py-2">
+                  Utwórz nowe konto
+                </button>
+              </div>
+
+              <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center p-2 small">
+                {{ errorMessage }}
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
