@@ -1,0 +1,104 @@
+<div class="page-container d-flex align-items-center justify-content-center min-vh-100 bg-black">
+  
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        
+        <div class="text-center mb-4">
+          <h1 class="logo-text text-white">
+            <span class="logo-icon bg-primary text-white rounded px-2 py-1 me-1">B</span>ookface
+          </h1>
+        </div>
+
+        <div class="card custom-card p-4">
+          <div class="card-body">
+            
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              
+              <div class="row mb-3">
+                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                  <label class="form-label text-secondary small">Imię</label>
+                  <input type="text" 
+                         class="form-control custom-input" 
+                         [class.is-invalid]="isSubmitted && registerForm.get('firstName')?.invalid"
+                         formControlName="firstName" 
+                         placeholder="Imię">
+                  <div class="invalid-feedback">Imię jest wymagane.</div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="form-label text-secondary small">Nazwisko</label>
+                  <input type="text" 
+                         class="form-control custom-input" 
+                         [class.is-invalid]="isSubmitted && registerForm.get('lastName')?.invalid"
+                         formControlName="lastName" 
+                         placeholder="Nazwisko">
+                  <div class="invalid-feedback">Nazwisko jest wymagane.</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-secondary small">e-mail</label>
+                <input type="email" 
+                       class="form-control custom-input" 
+                       [class.is-invalid]="isSubmitted && registerForm.get('email')?.invalid"
+                       formControlName="email" 
+                       placeholder="e-mail">
+                <div class="invalid-feedback">Podaj poprawny adres e-mail.</div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-secondary small">Hasło</label>
+                <input type="password" 
+                       class="form-control custom-input" 
+                       [class.is-invalid]="isSubmitted && registerForm.get('password')?.invalid"
+                       formControlName="password" 
+                       placeholder="Hasło">
+                <div class="invalid-feedback">Hasło musi mieć minimum 6 znaków.</div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-secondary small">Potwierdź hasło</label>
+                <input type="password" 
+                       class="form-control custom-input" 
+                       [class.is-invalid]="isSubmitted && (registerForm.get('confirmPassword')?.invalid || registerForm.hasError('mismatch'))"
+                       formControlName="confirmPassword" 
+                       placeholder="Potwierdź hasło">
+                
+                <div *ngIf="isSubmitted && registerForm.get('confirmPassword')?.hasError('required')" class="invalid-feedback">
+                  To pole jest wymagane.
+                </div>
+
+                <div *ngIf="isSubmitted && registerForm.hasError('mismatch') && !registerForm.get('confirmPassword')?.hasError('required')" class="invalid-feedback">
+                  Hasła nie są takie same.
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label text-white small">Płeć</label>
+                <select class="form-select custom-input" 
+                        [class.is-invalid]="isSubmitted && registerForm.get('gender')?.invalid"
+                        formControlName="gender">
+                  <option value="" disabled selected>Choose...</option>
+                  <option value="male">Mężczyzna</option>
+                  <option value="female">Kobieta</option>
+                  <option value="other">Inna</option>
+                </select>
+                <div class="invalid-feedback">Wybierz płeć.</div>
+              </div>
+
+              <button type="submit" class="btn btn-success w-100 py-2 fw-bold" [disabled]="isLoading">
+                {{ isLoading ? 'Przetwarzanie...' : 'Utwórz nowe konto' }}
+              </button>
+
+              <div *ngIf="successMessage" class="alert alert-success mt-3 text-center">
+                {{ successMessage }}
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
