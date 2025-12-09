@@ -1,0 +1,61 @@
+.bg-dark-theme {
+  background-color: #242526;
+  border-bottom: 1px solid #393a3b;
+  height: 60px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo-text {
+  font-size: 1.7rem;
+  letter-spacing: -1px;
+}
+
+.search-container {
+  width: 40%;
+  max-width: 600px;
+}
+
+.bg-input {
+  background-color: #3a3b3c;
+}
+
+.form-control:focus {
+  background-color: #3a3b3c;
+  color: white;
+  box-shadow: none;
+}
+
+.form-control::placeholder {
+  color: #b0b3b8;
+}
+
+.icon-circle {
+  width: 40px;
+  height: 40px;
+  background-color: #3a3b3c;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 1.2rem;
+}
+
+.icon-circle:hover {
+  background-color: #4e4f50;
+}
+
+.profile-circle img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 1px solid #393a3b;
+}
