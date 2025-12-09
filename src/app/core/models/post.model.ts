@@ -7,4 +7,6 @@ export interface Post {
   imageUrl?: string;
   comments: number;
   shares: number;
+  timeAgo: string;
+  likes: number;
 }

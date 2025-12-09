@@ -39,7 +39,7 @@ export class LoginComponent {
         next: (success) => {
           this.isLoading = false;
           console.log('Zalogowano pomyślnie!');
-          alert('Zalogowano pomyślnie!');
+          this.router.navigate(['feed']);
         },
         error: (err) => {
           this.isLoading = false;

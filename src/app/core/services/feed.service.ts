@@ -8,8 +8,8 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class FeedService {
-  private postsUrl = 'assets/mock-data/posts.json';
-  private contactsUrl = 'assets/mock-data/contacts.json';
+  private postsUrl = '/assets/mock-data/posts.json';
+  private contactsUrl = '/assets/mock-data/contacts.json';
 
   constructor(private http: HttpClient) {}
 

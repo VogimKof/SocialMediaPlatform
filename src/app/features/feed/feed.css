@@ -1,0 +1,58 @@
+.bg-black {
+  background-color: #18191a;
+}
+
+.custom-card {
+  background-color: #242526;
+  border: none;
+  border-radius: 8px;
+}
+
+.custom-input {
+  background-color: #3a3b3c;
+  border: none;
+  color: white;
+}
+
+.custom-input:focus {
+  background-color: #3a3b3c;
+  color: white;
+  box-shadow: none;
+}
+
+.custom-input::placeholder {
+  color: #b0b3b8;
+}
+
+.btn-dark {
+  background-color: transparent;
+  border: none;
+  font-weight: 600;
+}
+
+.btn-dark:hover {
+  background-color: #3a3b3c;
+}
+
+.contact-item {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.contact-item:hover {
+  background-color: #3a3b3c;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #18191a;
+}
+::-webkit-scrollbar-thumb {
+  background: #3e4042;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

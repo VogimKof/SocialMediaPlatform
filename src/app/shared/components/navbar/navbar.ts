@@ -9,4 +9,4 @@ import { RouterModule } from '@angular/router';
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css']
 })
-export class navbar {}
+export class NavbarComponent {}
