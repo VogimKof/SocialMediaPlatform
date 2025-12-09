@@ -1,0 +1,43 @@
+[
+  {
+    "id": 101,
+    "author": {
+      "id": 99,
+      "username": "RandomUser123",
+      "avatarUrl": "https://placehold.co/50/6610f2/ffffff?text=RU"
+    },
+    "timeAgo": "15 min ago",
+    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+    "imageUrl": "https://placehold.co/600x400/212529/ffffff?text=Post+Image",
+    "likes": 123,
+    "comments": 43,
+    "shares": 5
+  },
+  {
+    "id": 102,
+    "author": {
+      "id": 2,
+      "username": "Anna Nowak",
+      "avatarUrl": "https://placehold.co/50/dc3545/ffffff?text=AN"
+    },
+    "timeAgo": "2 godz. temu",
+    "content": "Dzisiaj piękna pogoda na programowanie! 🚀 Kto też siedzi przy kodzie?",
+    "likes": 45,
+    "comments": 12,
+    "shares": 0
+  },
+  {
+    "id": 103,
+    "author": {
+      "id": 5,
+      "username": "Marek Developer",
+      "avatarUrl": "https://placehold.co/50/17a2b8/ffffff?text=MD"
+    },
+    "timeAgo": "5 godz. temu",
+    "content": "Angular 18 wprowadza świetne zmiany. Sygnały to przyszłość!",
+    "imageUrl": "https://placehold.co/600x300/17a2b8/ffffff?text=Angular+Code",
+    "likes": 89,
+    "comments": 30,
+    "shares": 12
+  }
+]
