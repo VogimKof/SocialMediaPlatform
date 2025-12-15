@@ -26,7 +26,8 @@
 
     <div class="px-3 py-2 d-flex justify-content-between align-items-center border-bottom border-dark-subtle">
       <div class="d-flex align-items-center">
-        <div class="reaction-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-1">
+        <div class="reaction-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-1" 
+             *ngIf="post.likes > 0">
           <i class="bi bi-hand-thumbs-up-fill" style="font-size: 0.7rem;"></i>
         </div>
         <span class="text-secondary small">{{ post.likes }}</span>
@@ -40,8 +41,15 @@
 
     <div class="px-2 py-1 d-flex justify-content-between">
       
-      <button class="btn btn-action flex-grow-1 text-secondary fw-bold" (click)="onLike()">
-        <i class="bi bi-hand-thumbs-up me-2"></i> Lubię to!
+      <button class="btn btn-action flex-grow-1 fw-bold" 
+              (click)="toggleLike()"
+              [class.text-primary]="post.isLikedByCurrentUser" 
+              [class.text-secondary]="!post.isLikedByCurrentUser">
+        
+        <i class="bi me-2" 
+           [class.bi-hand-thumbs-up-fill]="post.isLikedByCurrentUser"
+           [class.bi-hand-thumbs-up]="!post.isLikedByCurrentUser"></i> 
+        Lubię to!
       </button>
       
       <button class="btn btn-action flex-grow-1 text-secondary fw-bold">

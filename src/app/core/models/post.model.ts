@@ -9,4 +9,5 @@ export interface Post {
   shares: number;
   timeAgo: string;
   likes: number;
+  isLikedByCurrentUser?: boolean; 
 }

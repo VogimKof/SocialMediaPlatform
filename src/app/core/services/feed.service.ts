@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 import { Post } from '../models/post.model';
 import { User } from '../models/user.model';
 
@@ -19,5 +19,9 @@ export class FeedService {
 
   getContacts(): Observable<User[]> {
     return this.http.get<User[]>(this.contactsUrl);
+  }
+
+  likePost(postId: number): Observable<boolean> {
+    return of(true).pipe(delay(500)); 
   }
 }
