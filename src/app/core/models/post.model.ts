@@ -1,3 +1,4 @@
+import { Comment } from './comment.model';
 import { User } from './user.model';
 
 export interface Post {
@@ -6,6 +7,7 @@ export interface Post {
   content: string;
   imageUrl?: string;
   comments: number;
+  commentsList?: Comment[];
   shares: number;
   timeAgo: string;
   likes: number;

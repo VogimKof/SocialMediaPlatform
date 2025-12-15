@@ -3,63 +3,148 @@
     
     <div class="p-3 d-flex align-items-center mb-2">
       <img [src]="post.author.avatarUrl" alt="Avatar" class="author-avatar rounded-circle me-3">
-      
       <div>
         <h6 class="card-title mb-0 text-white fw-bold">{{ post.author.username }}</h6>
-        <small class="text-secondary" style="font-size: 0.8rem;">
-          {{ post.timeAgo }} · <i class="bi bi-globe-americas"></i>
-        </small>
+        <small class="text-secondary" style="font-size: 0.8rem;">{{ post.timeAgo }} · <i class="bi bi-globe-americas"></i></small>
       </div>
-      
-      <div class="ms-auto text-secondary options-icon">
-        <i class="bi bi-three-dots"></i>
-      </div>
+      <div class="ms-auto text-secondary options-icon"><i class="bi bi-three-dots"></i></div>
     </div>
 
     <div class="px-3 mb-3">
       <p class="card-text text-white mb-0">{{ post.content }}</p>
     </div>
 
-    <div *ngIf="post.imageUrl" class="post-image-container mb-3">
+    <div *ngIf="post.imageUrl" class="post-image-container mb-3" (click)="openModal()" style="cursor: pointer">
       <img [src]="post.imageUrl" class="img-fluid w-100" alt="Post content">
     </div>
 
     <div class="px-3 py-2 d-flex justify-content-between align-items-center border-bottom border-dark-subtle">
       <div class="d-flex align-items-center">
-        <div class="reaction-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-1" 
-             *ngIf="post.likes > 0">
+        <div class="reaction-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-1" *ngIf="post.likes > 0">
           <i class="bi bi-hand-thumbs-up-fill" style="font-size: 0.7rem;"></i>
         </div>
         <span class="text-secondary small">{{ post.likes }}</span>
       </div>
       
       <div class="text-secondary small">
-        <span class="me-2">{{ post.comments }} komentarzy</span>
+        <span class="me-2 clickable-text" (click)="openModal()">
+          {{ post.comments }} komentarzy
+        </span>
         <span>{{ post.shares }} udostępnień</span>
       </div>
     </div>
 
     <div class="px-2 py-1 d-flex justify-content-between">
-      
-      <button class="btn btn-action flex-grow-1 fw-bold" 
-              (click)="toggleLike()"
-              [class.text-primary]="post.isLikedByCurrentUser" 
-              [class.text-secondary]="!post.isLikedByCurrentUser">
-        
-        <i class="bi me-2" 
-           [class.bi-hand-thumbs-up-fill]="post.isLikedByCurrentUser"
-           [class.bi-hand-thumbs-up]="!post.isLikedByCurrentUser"></i> 
+      <button class="btn btn-action flex-grow-1 fw-bold" (click)="toggleLike()"
+              [class.text-primary]="post.isLikedByCurrentUser" [class.text-secondary]="!post.isLikedByCurrentUser">
+        <i class="bi me-2" [class.bi-hand-thumbs-up-fill]="post.isLikedByCurrentUser" [class.bi-hand-thumbs-up]="!post.isLikedByCurrentUser"></i> 
         Lubię to!
       </button>
       
-      <button class="btn btn-action flex-grow-1 text-secondary fw-bold">
+      <button class="btn btn-action flex-grow-1 text-secondary fw-bold" (click)="openModal()">
         <i class="bi bi-chat-left mb-1 me-2"></i> Komentarz
       </button>
       
       <button class="btn btn-action flex-grow-1 text-secondary fw-bold">
         <i class="bi bi-share me-2"></i> Udostępnij
       </button>
+    </div>
+  </div>
+</div>
 
+<div *ngIf="isModalOpen" class="post-modal-overlay" (click)="closeModal()">
+  <div class="post-modal-content" (click)="$event.stopPropagation()">
+    
+    <button class="close-modal-btn" (click)="closeModal()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+
+    <div class="modal-body p-0">
+      
+      <div class="p-3">
+        <div class="d-flex align-items-center mb-3">
+          <img [src]="post.author.avatarUrl" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+          <div>
+            <span class="text-white fw-bold d-block">{{ post.author.username }}</span>
+            <small class="text-secondary">{{ post.timeAgo }}</small>
+          </div>
+        </div>
+        <p class="text-white">{{ post.content }}</p>
+        <img *ngIf="post.imageUrl" [src]="post.imageUrl" class="img-fluid rounded mb-0 w-100">
+      </div>
+
+      <div class="px-3 py-2 d-flex justify-content-between align-items-center border-bottom border-dark-subtle">
+        <div class="d-flex align-items-center">
+          <div class="reaction-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-1" *ngIf="post.likes > 0">
+            <i class="bi bi-hand-thumbs-up-fill" style="font-size: 0.7rem;"></i>
+          </div>
+          <span class="text-secondary small">{{ post.likes }}</span>
+        </div>
+        
+        <div class="text-secondary small">
+          <span class="me-2 clickable-text" (click)="openModal()">
+            {{ post.comments }} komentarzy
+          </span>
+          <span>{{ post.shares }} udostępnień</span>
+        </div>
+      </div>
+
+      <hr class="border-dark-subtle m-0">
+
+      <div class="px-2 py-1 d-flex justify-content-between">
+        <button class="btn btn-action flex-grow-1 fw-bold" (click)="toggleLike()"
+                [class.text-primary]="post.isLikedByCurrentUser" [class.text-secondary]="!post.isLikedByCurrentUser">
+          <i class="bi me-2" [class.bi-hand-thumbs-up-fill]="post.isLikedByCurrentUser" [class.bi-hand-thumbs-up]="!post.isLikedByCurrentUser"></i> 
+          Lubię to!
+        </button>
+        
+        <button class="btn btn-action flex-grow-1 text-secondary fw-bold" (click)="openModal()">
+          <i class="bi bi-chat-left mb-1 me-2"></i> Komentarz
+        </button>
+        
+        <button class="btn btn-action flex-grow-1 text-secondary fw-bold">
+          <i class="bi bi-share me-2"></i> Udostępnij
+        </button>
+      </div>
+
+      <hr class="border-dark-subtle m-0">
+
+      <div class="p-3 bg-dark-theme">
+        
+        <div *ngIf="isLoadingComments" class="text-center py-4">
+          <div class="spinner-border text-primary" role="status"></div>
+          <p class="text-secondary mt-2">Ładowanie...</p>
+        </div>
+
+        <div *ngIf="!isLoadingComments">
+          <div *ngFor="let comment of post.commentsList" class="d-flex mb-3">
+            <img [src]="comment.author.avatarUrl" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+            <div>
+              <div class="bg-comment p-2 px-3">
+                <span class="text-white fw-bold d-block small">{{ comment.author.username }}</span>
+                <span class="text-white small">{{ comment.content }}</span>
+              </div>
+              
+              <div class="ms-1 text-secondary d-flex align-items-center" style="font-size: 0.75rem;">
+                <span role="button" class="fw-bold">Lubię to!</span>
+                <span class="mx-1">·</span>
+                <span role="button">Odpowiedz</span>     
+                <span class="mx-1">·</span>     
+                <span>{{ comment.timeAgo }}</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <div class="p-3 your-comment-bg">
+      <div class="d-flex">
+        <img src="https://placehold.co/40/0d6efd/ffffff?text=User" class="rounded-circle me-2" style="width: 32px; height: 32px;">
+        <input type="text" class="form-control rounded-pill border-0 your-comment-input" placeholder="Napisz komentarz...">
+      </div>
     </div>
 
   </div>

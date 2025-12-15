@@ -15,6 +15,9 @@ export class PostCardComponent {
 
   isLiking = false;
 
+  isModalOpen = false;
+  isLoadingComments = false;
+
   constructor(private feedService: FeedService) {}
 
   toggleLike() {
@@ -42,6 +45,34 @@ export class PostCardComponent {
         this.post.likes = previousLikes;
         this.isLiking = false;
         console.error('Error');
+      }
+    });
+  }
+
+  openModal() {
+    this.isModalOpen = true;
+    document.body.style.overflow = 'hidden';
+
+    if (!this.post.commentsList || this.post.commentsList.length === 0) {
+      this.loadComments();
+    }
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+    document.body.style.overflow = '';
+  }
+
+    loadComments() {
+    this.isLoadingComments = true;
+    this.feedService.getCommentsForPost(this.post.id).subscribe({
+      next: (comments) => {
+        this.post.commentsList = comments;
+        this.isLoadingComments = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoadingComments = false;
       }
     });
   }
