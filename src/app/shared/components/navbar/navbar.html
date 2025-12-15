@@ -72,8 +72,75 @@
 
       </div>
 
-      <div class="icon-circle text-white">
-        <i class="bi bi-chat-dots-fill"></i>
+      <div class="position-relative">
+        
+        <div class="icon-circle text-white position-relative" 
+             (click)="toggleMessages()" 
+             style="cursor: pointer;"
+             [class.bg-secondary-light]="isMessagesOpen">
+             
+          <i class="bi bi-chat-dots-fill"></i>
+          
+          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+          </span>
+        </div>
+
+        <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark position-absolute mt-2 shadow show p-0" 
+             *ngIf="isMessagesOpen" 
+             style="right: -40px; min-width: 360px; overflow: hidden;">
+          
+          <div class="d-flex justify-content-between align-items-center px-3 py-3 border-bottom border-secondary">
+            <h5 class="m-0 fw-bold">Czat</h5>
+            <div class="d-flex gap-2">
+              <i class="bi bi-three-dots text-secondary" style="cursor: pointer;"></i>
+              <i class="bi bi-pencil-square text-secondary" style="cursor: pointer;"></i>
+            </div>
+          </div>
+
+          <div class="px-3 py-2">
+            <input type="text" class="form-control bg-dark border-secondary text-white rounded-pill form-control-sm" placeholder="Szukaj w Messengerze">
+          </div>
+
+          <div class="message-list-scroll" style="max-height: 400px; overflow-y: auto;">
+            
+            <ul class="list-unstyled m-0">
+              <li *ngFor="let msg of messages">
+                <a class="dropdown-item d-flex align-items-center gap-3 py-2 px-3" href="#" style="white-space: normal;">
+                  
+                  <div class="position-relative">
+                    <img [src]="msg.avatar" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                    <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-dark rounded-circle" 
+                          style="right: 2px; bottom: 2px;"></span>
+                  </div>
+
+                  <div class="flex-grow-1 overflow-hidden">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-white fw-bold small">{{ msg.sender }}</span>
+                      <small class="text-secondary" style="font-size: 0.7rem;">{{ msg.time }}</small>
+                    </div>
+                    
+                    <div class="d-flex align-items-center justify-content-between">
+                      <p class="mb-0 small text-secondary text-truncate" 
+                         [class.text-white]="!msg.isRead" 
+                         [class.fw-bold]="!msg.isRead"
+                         style="max-width: 180px;">
+                        {{ msg.text }}
+                      </p>
+                      <span *ngIf="!msg.isRead" class="bg-primary rounded-circle" style="width: 8px; height: 8px;"></span>
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+            </ul>
+
+          </div>
+
+          <div class="p-2 text-center border-top border-secondary">
+            <a href="#" class="text-primary text-decoration-none fw-bold small">Zobacz wszystkie wiadomości</a>
+          </div>
+
+        </div>
       </div>
 
       <div class="position-relative ms-2">
