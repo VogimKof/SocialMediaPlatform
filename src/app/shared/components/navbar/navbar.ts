@@ -61,4 +61,12 @@ export class NavbarComponent {
     this.isMenuOpen = false;
     this.router.navigate(['/login'])
   }
+
+  get hasUnreadMessages(): boolean {
+    return true;
+  }
+  
+  get hasUnreadNotofications(): boolean {
+    return true;
+  }
 }

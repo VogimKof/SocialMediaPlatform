@@ -30,7 +30,7 @@
           
           <i class="bi bi-bell-fill"></i>
           
-          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+          <span *ngIf="hasUnreadNotofications" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
           </span>
         </div>
 
@@ -81,7 +81,7 @@
              
           <i class="bi bi-chat-dots-fill"></i>
           
-          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+          <span *ngIf="hasUnreadMessages" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
           </span>
         </div>
 
