@@ -39,6 +39,42 @@ export class FeedService {
         author: { id: 51, username: 'Tomek Nowak', avatarUrl: 'https://placehold.co/40/198754/ffffff?text=TN' },
         content: 'świetny post!.',
         timeAgo: '5 min temu'
+      },
+            {
+        id: 1,
+        author: { id: 50, username: 'Kasia Kowalska', avatarUrl: 'https://placehold.co/40/ffc107/ffffff?text=KK' },
+        content: `To są komentarze pobrane dynamicznie dla posta #${postId}!`,
+        timeAgo: '1 min temu'
+      },
+      {
+        id: 2,
+        author: { id: 51, username: 'Tomek Nowak', avatarUrl: 'https://placehold.co/40/198754/ffffff?text=TN' },
+        content: 'świetny post!.',
+        timeAgo: '5 min temu'
+      },
+            {
+        id: 1,
+        author: { id: 50, username: 'Kasia Kowalska', avatarUrl: 'https://placehold.co/40/ffc107/ffffff?text=KK' },
+        content: `To są komentarze pobrane dynamicznie dla posta #${postId}!`,
+        timeAgo: '1 min temu'
+      },
+      {
+        id: 2,
+        author: { id: 51, username: 'Tomek Nowak', avatarUrl: 'https://placehold.co/40/198754/ffffff?text=TN' },
+        content: 'świetny post!.',
+        timeAgo: '5 min temu'
+      },
+            {
+        id: 1,
+        author: { id: 50, username: 'Kasia Kowalska', avatarUrl: 'https://placehold.co/40/ffc107/ffffff?text=KK' },
+        content: `To są komentarze pobrane dynamicznie dla posta #${postId}!`,
+        timeAgo: '1 min temu'
+      },
+      {
+        id: 2,
+        author: { id: 51, username: 'Tomek Nowak', avatarUrl: 'https://placehold.co/40/198754/ffffff?text=TN' },
+        content: 'świetny post!.',
+        timeAgo: '5 min temu'
       }
     ];
 
