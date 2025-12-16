@@ -5,4 +5,6 @@ export interface Comment {
   author: User;
   content: string;
   timeAgo: string;
+  likes: number;
+  isLikedByCurrentUser?: boolean;
 }

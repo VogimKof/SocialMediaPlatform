@@ -32,49 +32,17 @@ export class FeedService {
         id: 1,
         author: { id: 50, username: 'Kasia Kowalska', avatarUrl: 'https://placehold.co/40/ffc107/ffffff?text=KK' },
         content: `To są komentarze pobrane dynamicznie dla posta #${postId}!`,
-        timeAgo: '1 min temu'
+        timeAgo: '1 min temu',
+        likes: 5,
+        isLikedByCurrentUser: false
       },
       {
         id: 2,
         author: { id: 51, username: 'Tomek Nowak', avatarUrl: 'https://placehold.co/40/198754/ffffff?text=TN' },
         content: 'świetny post!.',
-        timeAgo: '5 min temu'
-      },
-            {
-        id: 1,
-        author: { id: 50, username: 'Kasia Kowalska', avatarUrl: 'https://placehold.co/40/ffc107/ffffff?text=KK' },
-        content: `To są komentarze pobrane dynamicznie dla posta #${postId}!`,
-        timeAgo: '1 min temu'
-      },
-      {
-        id: 2,
-        author: { id: 51, username: 'Tomek Nowak', avatarUrl: 'https://placehold.co/40/198754/ffffff?text=TN' },
-        content: 'świetny post!.',
-        timeAgo: '5 min temu'
-      },
-            {
-        id: 1,
-        author: { id: 50, username: 'Kasia Kowalska', avatarUrl: 'https://placehold.co/40/ffc107/ffffff?text=KK' },
-        content: `To są komentarze pobrane dynamicznie dla posta #${postId}!`,
-        timeAgo: '1 min temu'
-      },
-      {
-        id: 2,
-        author: { id: 51, username: 'Tomek Nowak', avatarUrl: 'https://placehold.co/40/198754/ffffff?text=TN' },
-        content: 'świetny post!.',
-        timeAgo: '5 min temu'
-      },
-            {
-        id: 1,
-        author: { id: 50, username: 'Kasia Kowalska', avatarUrl: 'https://placehold.co/40/ffc107/ffffff?text=KK' },
-        content: `To są komentarze pobrane dynamicznie dla posta #${postId}!`,
-        timeAgo: '1 min temu'
-      },
-      {
-        id: 2,
-        author: { id: 51, username: 'Tomek Nowak', avatarUrl: 'https://placehold.co/40/198754/ffffff?text=TN' },
-        content: 'świetny post!.',
-        timeAgo: '5 min temu'
+        timeAgo: '5 min temu',
+        likes: 12,
+        isLikedByCurrentUser: true
       }
     ];
 
@@ -90,9 +58,15 @@ export class FeedService {
         avatarUrl: 'https://placehold.co/40/0d6efd/ffffff?text=User'
       },
       content: content,
-      timeAgo: 'chwilę temu'
+      timeAgo: 'chwilę temu',
+      likes: 0,
+      isLikedByCurrentUser: false
     };
 
     return of(mockComment).pipe(delay(500));
+  }
+
+  likeComment(commentId: number): Observable<boolean> {
+    return of(true).pipe(delay(300));
   }
 }

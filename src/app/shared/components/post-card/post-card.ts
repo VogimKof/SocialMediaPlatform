@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Post } from '../../../core/models/post.model';
@@ -14,7 +14,7 @@ import { FeedService } from '../../../core/services/feed.service';
 export class PostCardComponent {
   @Input() post!: Post;
 
-  isLiking = false;
+  @ViewChild('commentInput') commentInput!: ElementRef;
 
   isModalOpen = false;
   isLoadingComments = false;
@@ -25,7 +25,6 @@ export class PostCardComponent {
   constructor(private feedService: FeedService) {}
 
   toggleLike() {
-    if (this.isLiking) return;
     
     const previousState = this.post.isLikedByCurrentUser;
     const previousLikes = this.post.likes;
@@ -38,16 +37,13 @@ export class PostCardComponent {
       this.post.isLikedByCurrentUser = true;
     }
 
-    this.isLiking = true;
     this.feedService.likePost(this.post.id).subscribe({
       next: () => {
-        this.isLiking = false;
         console.log('Request do backendu');
       },
       error: () => {
         this.post.isLikedByCurrentUser = previousState;
         this.post.likes = previousLikes;
-        this.isLiking = false;
         console.error('Error');
       }
     });
@@ -60,6 +56,12 @@ export class PostCardComponent {
     if (!this.post.commentsList || this.post.commentsList.length === 0) {
       this.loadComments();
     }
+
+    setTimeout(() => {
+      if (this.commentInput) {
+        this.commentInput.nativeElement.focus();
+      }
+    }, 100);
   }
 
   closeModal() {
@@ -105,6 +107,30 @@ export class PostCardComponent {
       error: (err) => {
         console.error('Błąd podczas dodawania komentarza', err);
         this.isAddingComment = false;
+      }
+    });
+  }
+
+  toggleCommentLike(comment: any) {
+    
+    const previousState = comment.isLikedByCurrentUser;
+    const previousLikes = comment.likes;
+
+    if (comment.isLikedByCurrentUser) {
+      comment.likes--;
+      comment.isLikedByCurrentUser = false;
+    } else {
+      comment.likes++;
+      comment.isLikedByCurrentUser = true;
+    }
+
+    this.feedService.likeComment(comment.id).subscribe({
+      next: () => {
+      },
+      error: () => {
+        comment.isLikedByCurrentUser = previousState;
+        comment.likes = previousLikes;
+        console.error('Błąd lajkowania komentarza');
       }
     });
   }

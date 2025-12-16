@@ -125,12 +125,22 @@
                 <span class="text-white small">{{ comment.content }}</span>
               </div>
               
-              <div class="ms-3 text-secondary d-flex align-items-center" style="font-size: 0.75rem;">
-                <span role="button" class="fw-bold">Lubię to!</span>
+              <div class="ms-1 text-secondary d-flex align-items-center" style="font-size: 0.75rem;">
+  
+                <span role="button" 
+                      class="fw-bold d-flex align-items-center gap-1"
+                      [class.text-primary]="comment.isLikedByCurrentUser"
+                      (click)="toggleCommentLike(comment)"> Lubię to!
+                </span>
+
                 <span class="mx-1">·</span>
                 <span role="button">Odpowiedz</span>     
                 <span class="mx-1">·</span>     
                 <span>{{ comment.timeAgo }}</span>
+                <div class="reaction-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center px-1 ms-2" *ngIf="comment.likes > 0">
+                  <i class="bi bi-hand-thumbs-up-fill" style="font-size: 0.7rem;"></i>
+                </div>
+                <span *ngIf="comment.likes > 0" class="text-secondary ms-1">{{ comment.likes }}</span>
               </div>
 
             </div>
@@ -144,6 +154,7 @@
       <div class="d-flex align-items-center"> <img src="https://placehold.co/40/0d6efd/ffffff?text=User" class="rounded-circle me-2" style="width: 32px; height: 32px;">
         
         <input type="text" 
+              #commentInput
               class="form-control rounded-pill border-0 your-comment-input flex-grow-1" 
               placeholder="Napisz komentarz..."
               [(ngModel)]="newCommentContent"
