@@ -1,7 +1,7 @@
 <div class="card custom-card mb-3" *ngIf="post">
   <div class="card-body p-0">
     
-    <div class="p-3 d-flex align-items-center mb-2">
+    <div class="p-3 d-flex align-items-center">
       <img [src]="post.author.avatarUrl" alt="Avatar" class="author-avatar rounded-circle me-3">
       <div>
         <h6 class="card-title mb-0 text-white fw-bold">{{ post.author.username }}</h6>
@@ -125,7 +125,7 @@
                 <span class="text-white small">{{ comment.content }}</span>
               </div>
               
-              <div class="ms-1 text-secondary d-flex align-items-center" style="font-size: 0.75rem;">
+              <div class="ms-3 text-secondary d-flex align-items-center" style="font-size: 0.75rem;">
                 <span role="button" class="fw-bold">Lubię to!</span>
                 <span class="mx-1">·</span>
                 <span role="button">Odpowiedz</span>     
@@ -141,12 +141,24 @@
     </div>
     
     <div class="p-3 your-comment-bg">
-      <div class="d-flex">
-        <img src="https://placehold.co/40/0d6efd/ffffff?text=User" class="rounded-circle me-2" style="width: 32px; height: 32px;">
-        <input type="text" class="form-control rounded-pill border-0 your-comment-input" placeholder="Napisz komentarz...">
-          <button class="btn btn-sm btn-dark text-secondary d-flex align-items-center gap-2">
-               <i class="bi bi-send text-primary"></i>
+      <div class="d-flex align-items-center"> <img src="https://placehold.co/40/0d6efd/ffffff?text=User" class="rounded-circle me-2" style="width: 32px; height: 32px;">
+        
+        <input type="text" 
+              class="form-control rounded-pill border-0 your-comment-input flex-grow-1" 
+              placeholder="Napisz komentarz..."
+              [(ngModel)]="newCommentContent"
+              (keyup.enter)="addComment()"
+              [disabled]="isAddingComment">
+          
+          <button class="btn btn-sm btn-dark text-secondary d-flex align-items-center gap-2 ms-2"
+                  (click)="addComment()"
+                  [disabled]="isAddingComment || !newCommentContent.trim()">
+                
+                <i *ngIf="!isAddingComment" class="bi bi-send text-primary"></i>
+                
+                <div *ngIf="isAddingComment" class="spinner-border spinner-border-sm text-primary" role="status"></div>
           </button>
+
       </div>
     </div>
 

@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Post } from '../../../core/models/post.model';
 import { FeedService } from '../../../core/services/feed.service';
 
 @Component({
   selector: 'app-post-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './post-card.html',
   styleUrls: ['./post-card.css']
 })
@@ -17,6 +18,9 @@ export class PostCardComponent {
 
   isModalOpen = false;
   isLoadingComments = false;
+
+  newCommentContent: string = '';
+  isAddingComment = false;
 
   constructor(private feedService: FeedService) {}
 
@@ -73,6 +77,34 @@ export class PostCardComponent {
       error: (err) => {
         console.error(err);
         this.isLoadingComments = false;
+      }
+    });
+  }
+
+  addComment() {
+    if (!this.newCommentContent.trim() || this.isAddingComment) {
+      return;
+    }
+
+    this.isAddingComment = true;
+
+    this.feedService.addComment(this.post.id, this.newCommentContent).subscribe({
+      next: (comment) => {
+        if (!this.post.commentsList) {
+          this.post.commentsList = [];
+        }
+        
+        this.post.commentsList.push(comment);
+        
+        this.post.comments++;
+        
+        this.newCommentContent = '';
+        this.isAddingComment = false;
+        
+      },
+      error: (err) => {
+        console.error('Błąd podczas dodawania komentarza', err);
+        this.isAddingComment = false;
       }
     });
   }

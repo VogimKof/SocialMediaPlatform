@@ -80,4 +80,19 @@ export class FeedService {
 
     return of(mockComments).pipe(delay(800));
   }
+
+  addComment(postId: number, content: string): Observable<Comment> {
+    const mockComment: Comment = {
+      id: 7,
+      author: {
+        id: 999,
+        username: 'Twój Profil',
+        avatarUrl: 'https://placehold.co/40/0d6efd/ffffff?text=User'
+      },
+      content: content,
+      timeAgo: 'chwilę temu'
+    };
+
+    return of(mockComment).pipe(delay(500));
+  }
 }
