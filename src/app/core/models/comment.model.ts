@@ -7,4 +7,8 @@ export interface Comment {
   timeAgo: string;
   likes: number;
   isLikedByCurrentUser?: boolean;
+  replies?: Comment[];
+  replyNumber: number;
+  isExpanded?: boolean
+  isLoadingReplies?: boolean;
 }

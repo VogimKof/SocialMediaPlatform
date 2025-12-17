@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Post } from '../../../core/models/post.model';
 import { FeedService } from '../../../core/services/feed.service';
+import { Comment } from '../../../core/models/comment.model';
 
 @Component({
   selector: 'app-post-card',
@@ -134,4 +135,39 @@ export class PostCardComponent {
       }
     });
   }
+
+
+
+toggleReplies(comment: Comment) {
+    if (comment.isLoadingReplies) {
+      return;
+    }
+
+    if (comment.isExpanded) {
+      comment.isExpanded = false;
+      return;
+    }
+
+    if (comment.replies && comment.replies.length > 0) {
+      comment.isExpanded = true;
+      return;
+    }
+
+    comment.isLoadingReplies = true;
+    comment.isExpanded = true;
+
+    this.feedService.getRepliesForComment(comment.id).subscribe({
+      next: (fetchedReplies) => {
+        comment.replies = fetchedReplies;
+        comment.isLoadingReplies = false;
+      },
+      error: (err) => {
+        console.error('Nie udało się pobrać odpowiedzi:', err);
+        comment.isLoadingReplies = false;
+        comment.isExpanded = false;
+        
+        alert('Wystąpił błąd podczas pobierania odpowiedzi. Spróbuj ponownie.');
+      }
+    });
+}
 }
