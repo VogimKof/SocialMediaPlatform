@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -44,8 +45,18 @@ export class RegisterComponent {
 
     if (this.registerForm.valid) {
       this.isLoading = true;
+
+      const formValues = this.registerForm.value;
+
+      const registerData = {
+        firstName: formValues.firstName,
+        lastName: formValues.lastName,
+        sex: formValues.gender,
+        email: formValues.email,
+        password: formValues.password
+      };
       
-      this.authService.register(this.registerForm.value).subscribe({
+      this.authService.register(registerData).subscribe({
         next: (response) => {
           this.isLoading = false;
           this.successMessage = 'Konto zostało utworzone pomyślnie!';

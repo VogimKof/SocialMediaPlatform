@@ -33,7 +33,9 @@ export class FeedService {
         id: 1,
         author: { 
           id: 60, 
-          username: 'Malenia, Blade of Miquella', 
+          firstName: 'Malenia',
+          lastName: 'Blade of Miquella',
+          sex: 'female',
           avatarUrl: 'https://placehold.co/40/5d4037/ffffff?text=MB'
         },
         content: 'Jestem Malenia, miecz Miquelli. I nigdy nie zaznałam porażki...',
@@ -46,7 +48,9 @@ export class FeedService {
         id: 2,
         author: { 
           id: 50, 
-          username: 'Geralt z Rivii', 
+          firstName: 'Geralt',
+          lastName: 'z Rivii',
+          sex: 'male',
           avatarUrl: 'https://placehold.co/40/424242/ffffff?text=GR' 
         },
         content: 'Zlecenie wykonane. Chociaż za taką liczbę lajków spodziewałem się czegoś trudniejszego niż zwykły utopiec.',
@@ -59,7 +63,9 @@ export class FeedService {
         id: 3,
         author: { 
           id: 51, 
-          username: 'Lara Croft', 
+          firstName: 'Lara',
+          lastName: 'Croft',
+          sex: 'female',
           avatarUrl: 'https://placehold.co/40/2e7d32/ffffff?text=LC' 
         },
         content: 'Znalazłam ukryte przejście w sekcji komentarzy. Wygląda na to, że prowadzi do zapomnianego grobowca kodu.',
@@ -72,7 +78,9 @@ export class FeedService {
         id: 4,
         author: { 
           id: 52, 
-          username: 'Mario', 
+          firstName: 'Mario',
+          lastName: 'Bros',
+          sex: 'male',
           avatarUrl: 'https://placehold.co/40/d32f2f/ffffff?text=M' 
         },
         content: 'Mamma mia! Ten post jest lepszy niż super grzyb! It’s-a me, Mario!',
@@ -91,7 +99,9 @@ export class FeedService {
       id: 7,
       author: {
         id: 999,
-        username: 'Twój Profil',
+        firstName: 'Twój',
+        lastName: 'Profil',
+        sex: 'other',
         avatarUrl: 'https://placehold.co/40/0d6efd/ffffff?text=User'
       },
       content: content,
@@ -112,7 +122,13 @@ export class FeedService {
     const mockReplies: Comment[] = [
       {
         id: 300 + commentId,
-        author: { id: 55, username: 'Adam Nowy', avatarUrl: 'https://placehold.co/40/6610f2/ffffff?text=AN' },
+        author: { 
+          id: 55, 
+          firstName: 'Adam', 
+          lastName: 'Nowy', 
+          sex: 'male',
+          avatarUrl: 'https://placehold.co/40/6610f2/ffffff?text=AN' 
+        },
         content: `To jest odpowiedź pobrana z serwera dla komentarza ${commentId}`,
         timeAgo: '1 min temu',
         likes: 2,
@@ -120,7 +136,13 @@ export class FeedService {
       },
       {
         id: 301 + commentId,
-        author: { id: 56, username: 'Ewa Baza', avatarUrl: 'https://placehold.co/40/d63384/ffffff?text=EB' },
+        author: { 
+          id: 56, 
+          firstName: 'Ewa', 
+          lastName: 'Baza', 
+          sex: 'female',
+          avatarUrl: 'https://placehold.co/40/d63384/ffffff?text=EB' 
+        },
         content: 'Potwierdzam, działa!',
         timeAgo: '30 sek. temu',
         likes: 0,
@@ -144,7 +166,9 @@ export class FeedService {
       id: ++this.lastId,
       author: {
         id: 999,
-        username: 'Twój Profil',
+        firstName: 'Twój',
+        lastName: 'Profil',
+        sex: 'other',
         avatarUrl: 'https://placehold.co/40/0d6efd/ffffff?text=User'
       },
       content: content,
