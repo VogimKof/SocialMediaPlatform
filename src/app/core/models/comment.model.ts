@@ -11,4 +11,7 @@ export interface Comment {
   replyNumber: number;
   isExpanded?: boolean
   isLoadingReplies?: boolean;
+  isReplying?: boolean;
+  replyContent?: string;
+  isAddingReply?: boolean;
 }

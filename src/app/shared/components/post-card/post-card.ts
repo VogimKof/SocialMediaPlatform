@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Post } from '../../../core/models/post.model';
 import { FeedService } from '../../../core/services/feed.service';
 import { Comment } from '../../../core/models/comment.model';
+import { AutofocusDirective } from '../../directives/autofocus-directive';
 
 @Component({
   selector: 'app-post-card',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule,CommonModule, AutofocusDirective],
   templateUrl: './post-card.html',
   styleUrls: ['./post-card.css']
 })
@@ -138,7 +139,7 @@ export class PostCardComponent {
 
 
 
-toggleReplies(comment: Comment) {
+  toggleReplies(comment: Comment) {
     if (comment.isLoadingReplies) {
       return;
     }
@@ -169,5 +170,44 @@ toggleReplies(comment: Comment) {
         alert('Wystąpił błąd podczas pobierania odpowiedzi. Spróbuj ponownie.');
       }
     });
-}
+  }
+
+  toggleReplyInput(comment: Comment) {
+    const wasReplying = !!comment.isReplying;
+
+    this.closeAllReplyInputs(this.post.commentsList);
+
+    if (!wasReplying) {
+      comment.isReplying = true;
+      comment.replyContent = '';
+    }
+  }
+
+  private closeAllReplyInputs(comments: Comment[] | undefined) {
+    if (!comments) return;
+    comments.forEach(c => {
+      c.isReplying = false; // "Znika" input
+      if (c.replies) {
+        this.closeAllReplyInputs(c.replies);
+      }
+    });
+  }
+
+  addReply(parentComment: Comment) {
+    if (!parentComment.replyContent?.trim() || parentComment.isAddingReply) return;
+
+    parentComment.isAddingReply = true;
+    this.feedService.addReply(parentComment.id, parentComment.replyContent).subscribe({
+      next: (newReply) => {
+        if (!parentComment.replies) parentComment.replies = [];
+        parentComment.replies.push(newReply);
+        parentComment.replyNumber++;
+        parentComment.isExpanded = true;
+        
+        parentComment.isReplying = false;
+        parentComment.replyContent = '';
+        parentComment.isAddingReply = false;
+      }
+    });
+  }
 }

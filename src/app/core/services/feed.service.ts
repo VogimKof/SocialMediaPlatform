@@ -11,6 +11,7 @@ import { Comment } from '../models/comment.model';
 export class FeedService {
   private postsUrl = '/assets/mock-data/posts.json';
   private contactsUrl = '/assets/mock-data/contacts.json';
+  private lastId = 1000;
 
   constructor(private http: HttpClient) {}
 
@@ -136,5 +137,21 @@ export class FeedService {
     }
 
     return of(mockReplies).pipe(delay(1000));
+  }
+
+  addReply(commentId: number, content: string): Observable<Comment> {
+    const newReply: Comment = {
+      id: ++this.lastId,
+      author: {
+        id: 999,
+        username: 'Twój Profil',
+        avatarUrl: 'https://placehold.co/40/0d6efd/ffffff?text=User'
+      },
+      content: content,
+      timeAgo: 'chwilę temu',
+      likes: 0,
+      replyNumber: 0
+    };
+    return of(newReply).pipe(delay(500));
   }
 }
