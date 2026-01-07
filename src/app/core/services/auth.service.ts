@@ -19,4 +19,8 @@ export class AuthService {
     console.log('Logowanie:', credentials);
     return of(true).pipe(delay(1500));
   }
+
+  logout(): void {
+    console.log('Użytkownik wylogowany');
+  }
 }

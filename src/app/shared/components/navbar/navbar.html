@@ -1,0 +1,179 @@
+<nav class="navbar navbar-dark bg-dark-theme fixed-top px-3 shadow-sm py-0">
+  <div class="container-fluid d-flex justify-content-between align-items-center h-100">
+    
+    <a class="navbar-brand d-flex" routerLink="/feed">
+      <div class="logo-icon bg-primary text-white d-flex align-items-center justify-content-center me-2">
+        B
+      </div>
+    </a>
+
+    <div class="search-container d-none d-md-block mx-auto">
+      <div class="input-group">
+        <span class="input-group-text bg-input border-0 text-secondary rounded-start-pill ps-3">
+          <i class="bi bi-search"></i>
+        </span>
+        <input type="text" class="form-control bg-input border-0 text-white rounded-end-pill" placeholder="Search Bookface">
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      
+      <div class="icon-circle d-md-none text-white">
+        <i class="bi bi-search"></i>
+      </div>
+
+      <div class="position-relative">
+        
+        <div class="icon-circle text-white position-relative" 
+             (click)="toggleNotifications()" 
+             style="cursor: pointer;">
+          
+          <i class="bi bi-bell-fill"></i>
+          
+          <span *ngIf="hasUnreadNotofications" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+          </span>
+        </div>
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark position-absolute mt-2 shadow show" 
+            *ngIf="isNotificationsOpen" 
+            style="right: -80px; min-width: 320px;">
+          
+          <li>
+            <div class="d-flex justify-content-between align-items-center px-3 py-2">
+              <h6 class="dropdown-header p-0 m-0 fs-6">Powiadomienia</h6>
+              <a href="/feed" class="text-primary text-decoration-none small">Oznacz jako przeczytane</a>
+            </div>
+          </li>
+          
+          <li><hr class="dropdown-divider"></li>
+
+          <li *ngFor="let notif of notifications">
+            <a class="dropdown-item d-flex align-items-center gap-3 py-2" href="/feed" style="white-space: normal;">
+              
+              <div class="position-relative">
+                <img [src]="notif.avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+              </div>
+
+              <div class="flex-grow-1">
+                <p class="mb-0 small text-white" [class.fw-bold]="!notif.isRead">
+                  {{ notif.text }}
+                </p>
+                <small class="text-primary" style="font-size: 0.75rem;">{{ notif.time }}</small>
+              </div>
+
+              <span *ngIf="!notif.isRead" class="bg-primary rounded-circle" style="width: 8px; height: 8px;"></span>
+            </a>
+          </li>
+
+          <li><hr class="dropdown-divider" style="border-color: #4e5052;"></li>
+          
+          <li><a class="dropdown-item text-center small text-primary" href="/feed">Zobacz wszystkie powiadomienia</a></li>
+        </ul>
+
+      </div>
+
+      <div class="position-relative">
+        
+        <div class="icon-circle text-white position-relative" 
+             (click)="toggleMessages()" 
+             style="cursor: pointer;"
+             [class.bg-secondary-light]="isMessagesOpen">
+             
+          <i class="bi bi-chat-dots-fill"></i>
+          
+          <span *ngIf="hasUnreadMessages" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+          </span>
+        </div>
+
+        <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark position-absolute mt-2 shadow show p-0" 
+             *ngIf="isMessagesOpen" 
+             style="right: -40px; min-width: 360px; overflow: hidden;">
+          
+          <div class="d-flex justify-content-between align-items-center px-3 py-3 border-bottom border-secondary">
+            <h5 class="m-0 fw-bold">Czat</h5>
+          </div>
+
+          <div class="px-3 py-2">
+            <input type="text" class="form-control bg-dark border-secondary text-white rounded-pill form-control-sm" placeholder="Szukaj">
+          </div>
+
+          <div class="message-list-scroll" style="max-height: 400px; overflow-y: auto;">
+            
+            <ul class="list-unstyled m-0">
+              <li *ngFor="let msg of messages">
+                <a class="dropdown-item d-flex align-items-center gap-3 py-2 px-3" href="#" style="white-space: normal;">
+                  
+                  <div class="position-relative">
+                    <img [src]="msg.avatar" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                    <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-dark rounded-circle" 
+                          style="right: 2px; bottom: 2px;"></span>
+                  </div>
+
+                  <div class="flex-grow-1 overflow-hidden">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-white fw-bold small">{{ msg.sender }}</span>
+                      <small class="text-secondary" style="font-size: 0.7rem;">{{ msg.time }}</small>
+                    </div>
+                    
+                    <div class="d-flex align-items-center justify-content-between">
+                      <p class="mb-0 small text-secondary text-truncate" 
+                         [class.text-white]="!msg.isRead" 
+                         [class.fw-bold]="!msg.isRead"
+                         style="max-width: 180px;">
+                        {{ msg.text }}
+                      </p>
+                      <span *ngIf="!msg.isRead" class="bg-primary rounded-circle" style="width: 8px; height: 8px;"></span>
+                    </div>
+                  </div>
+
+                </a>
+              </li>
+            </ul>
+
+          </div>
+
+          <div class="p-2 text-center border-top border-secondary">
+            <a href="/feed" class="text-primary text-decoration-none fw-bold small">Zobacz wszystkie wiadomości</a>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="position-relative ms-2">
+        
+        <div class="profile-circle" (click)="toggleMenu()" style="cursor: pointer;">
+          <img src="https://placehold.co/40/0d6efd/ffffff?text=User" alt="Profile" class="rounded-circle">
+        </div>
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark position-absolute mt-2 shadow show" 
+            *ngIf="isMenuOpen" 
+            style="right: 0; min-width: 200px;">
+                    
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2" href="/feed" (click)="toggleMenu()">
+              <i class="bi bi-person-circle"></i> Twój profil
+            </a>
+          </li>
+          
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2" href="/feed" (click)="toggleMenu()">
+              <i class="bi bi-gear-fill"></i> Ustawienia
+            </a>
+          </li>
+
+          <li><hr class="dropdown-divider"></li>
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2 text-danger" 
+               style="cursor: pointer;" 
+               (click)="logout()">
+              <i class="bi bi-box-arrow-right"></i> Wyloguj się
+            </a>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "username": "RandomUser1",
+    "avatarUrl": "https://placehold.co/50/007bff/ffffff?text=RU1",
+    "isActive": true
+  },
+  {
+    "id": 2,
+    "username": "Anna Nowak",
+    "avatarUrl": "https://placehold.co/50/dc3545/ffffff?text=AN",
+    "isActive": true
+  },
+  {
+    "id": 3,
+    "username": "Piotr Zieliński",
+    "avatarUrl": "https://placehold.co/50/28a745/ffffff?text=PZ",
+    "isActive": false
+  },
+  {
+    "id": 4,
+    "username": "Kasia Kowalska",
+    "avatarUrl": "https://placehold.co/50/ffc107/ffffff?text=KK",
+    "isActive": true
+  },
+  {
+    "id": 5,
+    "username": "Marek Developer",
+    "avatarUrl": "https://placehold.co/50/17a2b8/ffffff?text=MD",
+    "isActive": false
+  }
+]
