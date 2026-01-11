@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { delay, Observable, of } from 'rxjs';
+import { delay, map, Observable, of } from 'rxjs';
 import { Post } from '../models/post.model';
 import { User } from '../models/user.model';
 import { Comment } from '../models/comment.model';
@@ -9,14 +9,41 @@ import { Comment } from '../models/comment.model';
   providedIn: 'root'
 })
 export class FeedService {
-  private postsUrl = '/assets/mock-data/posts.json';
+  private postsUrl = 'http://localhost:8080/api/posts';
   private contactsUrl = '/assets/mock-data/contacts.json';
   private lastId = 1000;
 
   constructor(private http: HttpClient) {}
 
   getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.postsUrl);
+    return this.http.get<any[]>(`${this.postsUrl}/all`).pipe(
+      map(dtoList => dtoList.map(dto => this.mapToPost(dto)))
+    );
+  }
+
+  private mapToPost(dto: any): Post {
+    return {
+      id: dto.postId,
+      content: dto.content,
+      author: {
+        id: 0, 
+        firstName: dto.firstName || 'Użytkownik',
+        lastName: dto.lastName || '',
+        sex: 'other',
+        avatarUrl: `https://placehold.co/40/0d6efd/ffffff?text=${dto.firstName?.charAt(0) || 'U'}`
+      },
+      timeAgo: this.formatDate(dto.createdAt),
+      likes: 0, 
+      comments: 0,
+      shares: 0,
+      isLikedByCurrentUser: false
+    };
+  }
+
+  private formatDate(dateArray: any): string {
+    if (!dateArray || !Array.isArray(dateArray)) return 'chwilę temu';
+    const date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
+    return date.toLocaleString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   }
 
   getContacts(): Observable<User[]> {

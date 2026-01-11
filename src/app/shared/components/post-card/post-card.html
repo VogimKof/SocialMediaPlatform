@@ -23,7 +23,7 @@
         <div class="reaction-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-1" *ngIf="post.likes > 0">
           <i class="bi bi-hand-thumbs-up-fill" style="font-size: 0.7rem;"></i>
         </div>
-        <span class="text-secondary small">{{ post.likes }}</span>
+        <span class="text-secondary small" *ngIf="post.likes > 0">{{ post.likes }}</span>
       </div>
       
       <div class="text-secondary small">
@@ -78,7 +78,7 @@
           <div class="reaction-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-1" *ngIf="post.likes > 0">
             <i class="bi bi-hand-thumbs-up-fill" style="font-size: 0.7rem;"></i>
           </div>
-          <span class="text-secondary small">{{ post.likes }}</span>
+          <span class="text-secondary small" *ngIf="post.likes > 0">{{ post.likes }}</span>
         </div>
         
         <div class="text-secondary small">
