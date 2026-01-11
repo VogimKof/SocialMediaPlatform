@@ -4,7 +4,7 @@
     <div class="p-3 d-flex align-items-center">
       <img [src]="post.author.avatarUrl" alt="Avatar" class="author-avatar rounded-circle me-3">
       <div>
-        <h6 class="card-title mb-0 text-white fw-bold">{{ post.author.username }}</h6>
+        <h6 class="card-title mb-0 text-white fw-bold">{{ post.author.firstName + ' ' + post.author.lastName }}</h6>
         <small class="text-secondary" style="font-size: 0.8rem;">{{ post.timeAgo }} · <i class="bi bi-globe-americas"></i></small>
       </div>
       <div class="ms-auto text-secondary options-icon"><i class="bi bi-three-dots"></i></div>
@@ -65,7 +65,7 @@
         <div class="d-flex align-items-center mb-3">
           <img [src]="post.author.avatarUrl" class="rounded-circle me-2" style="width: 40px; height: 40px;">
           <div>
-            <span class="text-white fw-bold d-block">{{ post.author.username }}</span>
+            <span class="text-white fw-bold d-block">{{ post.author.firstName + ' ' + post.author.lastName }}</span>
             <small class="text-secondary">{{ post.timeAgo }}</small>
           </div>
         </div>
@@ -127,7 +127,7 @@
               <img [src]="comment.author.avatarUrl" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
               <div>
                 <div class="bg-comment p-2 px-3">
-                  <span class="text-white fw-bold d-block small">{{ comment.author.username }}</span>
+                  <span class="text-white fw-bold d-block small">{{ post.author.firstName + ' ' + post.author.lastName }}</span>
                   <span class="text-white small">{{ comment.content }}</span>
                 </div>
                 

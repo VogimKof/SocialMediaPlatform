@@ -1,26 +1,30 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, tap } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8080/api/authentication';
+  private authUrl = 'http://localhost:8080/api/authentication';
+  private usersUrl = 'http://localhost:8080/api/users';
   
   constructor(private http: HttpClient) { }
 
   register(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userData, { responseType: 'text' });
+    return this.http.post(`${this.authUrl}/register`, userData, { responseType: 'text' });
   }
 
   login(credentials: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/authenticate`, credentials).pipe(
+    return this.http.post<any>(`${this.authUrl}/authenticate`, credentials).pipe(
       tap(response => {
-        if (response.token) {
-          localStorage.setItem('access_token', response.token);
+        if (response && response.authenticationToken) {
+          localStorage.setItem('access_token', response.authenticationToken);
+          console.log('Token zapisany pomyślnie');
+        } else {
+          console.error('Błąd: Backend nie zwrócił pola authenticationToken', response);
         }
       })
     );
@@ -29,6 +33,10 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('access_token');
     console.log('Użytkownik wylogowany');
+  }
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${this.usersUrl}/me`);
   }
 
   getToken(): string | null {

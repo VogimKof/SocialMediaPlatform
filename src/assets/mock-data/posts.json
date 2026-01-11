@@ -3,7 +3,8 @@
     "id": 101,
     "author": {
       "id": 99,
-      "username": "RandomUser123",
+      "firstName": "John",
+      "lastName": "Doe",
       "avatarUrl": "https://placehold.co/50/6610f2/ffffff?text=RU"
     },
     "timeAgo": "15 min ago",
@@ -17,7 +18,8 @@
     "id": 102,
     "author": {
       "id": 2,
-      "username": "Anna Nowak",
+      "firstName": "Anna",
+      "lastName": "Nowak",
       "avatarUrl": "https://placehold.co/50/dc3545/ffffff?text=AN"
     },
     "timeAgo": "2 godz. temu",
@@ -30,7 +32,8 @@
     "id": 103,
     "author": {
       "id": 5,
-      "username": "Marek Developer",
+      "firstName": "Piotr",
+      "lastName": "Kowalski",
       "avatarUrl": "https://placehold.co/50/17a2b8/ffffff?text=MD"
     },
     "timeAgo": "5 godz. temu",
