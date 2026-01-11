@@ -189,6 +189,7 @@ export class PostCardComponent {
         if (!parentComment.replies) parentComment.replies = [];
         parentComment.replies.push(newReply);
         parentComment.replyNumber++;
+        this.post.comments++;
         parentComment.isExpanded = true;
         
         parentComment.isReplying = false;

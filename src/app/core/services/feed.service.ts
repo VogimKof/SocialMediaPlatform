@@ -24,6 +24,7 @@ export class FeedService {
     return {
       id: dto.postId,
       content: dto.content,
+      imageUrl: dto.imageUrl,
       author: {
         id: 0, 
         firstName: dto.firstName || 'Użytkownik',
@@ -128,4 +129,10 @@ export class FeedService {
     );
   }
 
+  createPost(content: string, imageUrl?: string): Observable<Post> {
+    const body = { content, imageUrl };
+    return this.http.post<any>(`${this.postsUrl}/add`, body).pipe(
+      map(dto => this.mapToPost(dto))
+    );
+  }
 }
