@@ -136,17 +136,8 @@ export class PostCardComponent {
   }
 
   toggleReplies(comment: Comment) {
-    if (comment.isLoadingReplies) {
-      return;
-    }
-
     if (comment.isExpanded) {
       comment.isExpanded = false;
-      return;
-    }
-
-    if (comment.replies && comment.replies.length > 0) {
-      comment.isExpanded = true;
       return;
     }
 
@@ -159,11 +150,9 @@ export class PostCardComponent {
         comment.isLoadingReplies = false;
       },
       error: (err) => {
-        console.error('Nie udało się pobrać odpowiedzi:', err);
+        console.error('Błąd pobierania odpowiedzi:', err);
         comment.isLoadingReplies = false;
         comment.isExpanded = false;
-        
-        alert('Wystąpił błąd podczas pobierania odpowiedzi. Spróbuj ponownie.');
       }
     });
   }

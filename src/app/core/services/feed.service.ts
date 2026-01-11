@@ -11,7 +11,6 @@ import { Comment } from '../models/comment.model';
 export class FeedService {
   private postsUrl = 'http://localhost:8080/api/posts';
   private contactsUrl = '/assets/mock-data/contacts.json';
-  private lastId = 1000;
 
   constructor(private http: HttpClient) {}
 
@@ -96,7 +95,7 @@ export class FeedService {
 
   private mapToComment(dto: any): Comment {
     return {
-      id: dto.postId,
+      id: dto.id,
       content: dto.content,
       author: {
         id: 0,
@@ -105,10 +104,10 @@ export class FeedService {
         sex: 'other',
         avatarUrl: `https://placehold.co/40/0d6efd/ffffff?text=${dto.username?.charAt(0) || 'U'}`
       },
-      timeAgo: 'chwilę temu',
+      timeAgo: this.formatDate(dto.createdAt),
       likes: 0,
       isLikedByCurrentUser: false,
-      replyNumber: 0
+      replyNumber: dto.replyNumber
     };
   }
 
@@ -128,4 +127,5 @@ export class FeedService {
       map(dto => this.mapToComment(dto))
     );
   }
+
 }
