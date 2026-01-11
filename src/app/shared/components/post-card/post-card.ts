@@ -26,29 +26,29 @@ export class PostCardComponent {
 
   constructor(private feedService: FeedService) {}
 
-  toggleLike() {
-    
-    const previousState = this.post.isLikedByCurrentUser;
-    const previousLikes = this.post.likes;
+    toggleLike() {
+      const previousState = this.post.isLikedByCurrentUser;
+      const previousLikes = this.post.likes;
 
-    if (this.post.isLikedByCurrentUser) {
-      this.post.likes--;
-      this.post.isLikedByCurrentUser = false;
-    } else {
-      this.post.likes++;
-      this.post.isLikedByCurrentUser = true;
-    }
-
-    this.feedService.likePost(this.post.id).subscribe({
-      next: () => {
-        console.log('Request do backendu');
-      },
-      error: () => {
-        this.post.isLikedByCurrentUser = previousState;
-        this.post.likes = previousLikes;
-        console.error('Error');
+      if (this.post.isLikedByCurrentUser) {
+          this.post.likes--;
+          this.post.isLikedByCurrentUser = false;
+      } else {
+          this.post.likes++;
+          this.post.isLikedByCurrentUser = true;
       }
-    });
+
+      this.feedService.likePost(this.post.id).subscribe({
+          next: (serverLikeCount) => {
+              this.post.likes = serverLikeCount;
+              console.log('Lajk zsynchronizowany z backendem');
+          },
+          error: () => {
+              this.post.isLikedByCurrentUser = previousState;
+              this.post.likes = previousLikes;
+              console.error('Błąd podczas lajkowania');
+          }
+      });
   }
 
   openModal() {
