@@ -20,7 +20,7 @@ export class PostCardComponent {
 
   isModalOpen = false;
   isLoadingComments = false;
-
+  showComments = false;
   newCommentContent: string = '';
   isAddingComment = false;
 
@@ -71,43 +71,41 @@ export class PostCardComponent {
     document.body.style.overflow = '';
   }
 
-    loadComments() {
-    this.isLoadingComments = true;
-    this.feedService.getCommentsForPost(this.post.id).subscribe({
-      next: (comments) => {
-        this.post.commentsList = comments;
-        this.isLoadingComments = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.isLoadingComments = false;
-      }
-    });
+  loadComments() {
+    this.showComments = !this.showComments;
+    
+    if (this.showComments && (!this.post.commentsList || this.post.commentsList.length === 0)) {
+      this.isLoadingComments = true;
+      this.feedService.getCommentsForPost(this.post.id).subscribe({
+        next: (comments) => {
+          this.post.commentsList = comments;
+          this.isLoadingComments = false;
+        },
+        error: (err) => {
+          console.error('Błąd podczas ładowania komentarzy:', err);
+          this.isLoadingComments = false;
+        }
+      });
+    }
   }
 
   addComment() {
-    if (!this.newCommentContent.trim() || this.isAddingComment) {
-      return;
-    }
+    if (!this.newCommentContent.trim() || this.isAddingComment) return;
 
     this.isAddingComment = true;
 
     this.feedService.addComment(this.post.id, this.newCommentContent).subscribe({
-      next: (comment) => {
-        if (!this.post.commentsList) {
-          this.post.commentsList = [];
-        }
+      next: (newCommentFromServer) => {
+        if (!this.post.commentsList) this.post.commentsList = [];
         
-        this.post.commentsList.push(comment);
-        
+        this.post.commentsList.push(newCommentFromServer);
         this.post.comments++;
         
         this.newCommentContent = '';
         this.isAddingComment = false;
-        
       },
       error: (err) => {
-        console.error('Błąd podczas dodawania komentarza', err);
+        console.error('Błąd dodawania komentarza:', err);
         this.isAddingComment = false;
       }
     });
@@ -136,8 +134,6 @@ export class PostCardComponent {
       }
     });
   }
-
-
 
   toggleReplies(comment: Comment) {
     if (comment.isLoadingReplies) {
@@ -186,7 +182,7 @@ export class PostCardComponent {
   private closeAllReplyInputs(comments: Comment[] | undefined) {
     if (!comments) return;
     comments.forEach(c => {
-      c.isReplying = false; // "Znika" input
+      c.isReplying = false;
       if (c.replies) {
         this.closeAllReplyInputs(c.replies);
       }
@@ -194,9 +190,11 @@ export class PostCardComponent {
   }
 
   addReply(parentComment: Comment) {
+    console.log(parentComment)
     if (!parentComment.replyContent?.trim() || parentComment.isAddingReply) return;
 
     parentComment.isAddingReply = true;
+    console.log(parentComment.id)
     this.feedService.addReply(parentComment.id, parentComment.replyContent).subscribe({
       next: (newReply) => {
         if (!parentComment.replies) parentComment.replies = [];
