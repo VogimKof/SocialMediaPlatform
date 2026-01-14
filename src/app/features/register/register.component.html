@@ -6,7 +6,9 @@
         
         <div class="text-center mb-4">
           <h1 class="logo-text text-white">
-            <span class="logo-icon bg-primary text-white rounded px-2 py-1 me-1">B</span>ookface
+            <a routerLink="/login" class="text-white text-decoration-none">
+              <span class="logo-icon bg-primary text-white rounded px-2 py-1 me-1">B</span>ookface
+            </a>
           </h1>
         </div>
 
@@ -92,6 +94,10 @@
 
               <div *ngIf="successMessage" class="alert alert-success mt-3 text-center">
                 {{ successMessage }}
+              </div>
+
+              <div *ngIf="errorMessage" class="alert alert-success mt-3 text-center">
+                {{ errorMessage }}
               </div>
 
             </form>

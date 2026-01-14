@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractContro
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { first } from 'rxjs';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -15,9 +16,10 @@ export class RegisterComponent {
   registerForm: FormGroup;
   isLoading = false;
   successMessage = '';
+  errorMessage = '';
   isSubmitted = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -63,8 +65,10 @@ export class RegisterComponent {
           
           this.registerForm.reset();
           this.isSubmitted = false; 
+          this.router.navigate(['/login']);
         },
         error: (err) => {
+          this.errorMessage = "Istnieje już konto z takim adresem email."
           this.isLoading = false;
           console.error(err);
         }

@@ -14,10 +14,12 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   register(userData: any): Observable<any> {
+    localStorage.removeItem('access_token');
     return this.http.post(`${this.authUrl}/register`, userData, { responseType: 'text' });
   }
 
   login(credentials: any): Observable<any> {
+    localStorage.removeItem('access_token');
     return this.http.post<any>(`${this.authUrl}/authenticate`, credentials).pipe(
       tap(response => {
         if (response && response.authenticationToken) {

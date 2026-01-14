@@ -1,0 +1,131 @@
+
+<div class="container-fluid py-4" style="max-width: 1100px; margin-top: 56px;">
+
+  <div class="card custom-card mb-3 overflow-hidden">
+    <div class="position-relative" style="height: 350px; background-color: #333;">
+       <img [src]="user.bgUrl" alt="Cover" class="w-100 h-100 object-fit-cover">
+    </div>
+
+    <div class="px-4 pb-3">
+      <div class="d-flex flex-column flex-md-row align-items-center align-items-md-end position-relative" style="margin-top: -30px;">
+        
+        <div class="position-relative p-1 bg-dark-theme rounded-circle">
+          <img [src]="user.avatarUrl" alt="Avatar" class="rounded-circle border border-4 border-dark-theme" style="width: 168px; height: 168px; object-fit: cover;">
+        </div>
+
+        <div class="ms-md-4 mt-3 mt-md-0 mb-2 text-center text-md-start flex-grow-1">
+          <h1 class="fw-bold text-white mb-0">{{ user.firstName }} {{ user.lastName }}</h1>
+          <span class="text-secondary fw-bold">50 znajomych · 10 wspólnych</span>
+        </div>
+
+        <div class="d-flex gap-2 mb-3">
+          <button class="btn fw-bold px-3 transition-btn" 
+                  [class.btn-primary]="!isFriend" 
+                  [class.btn-secondary]="isFriend"
+                  (click)="toggleFriendship()">
+            <i class="bi" [class.bi-person-plus-fill]="!isFriend" [class.bi-check-lg]="isFriend"></i>
+            {{ isFriend ? 'Znajomi' : 'Dodaj do znajomych' }}
+          </button>
+          
+          <button class="btn btn-secondary fw-bold px-3">
+            <i class="bi bi-chat-fill me-2"></i>Wiadomość
+          </button>
+        </div>
+      </div>
+
+      <hr class="border-secondary my-3">
+      <div class="d-flex gap-4 fw-bold text-secondary profile-nav">
+        <a (click)="setActiveTab('posts')" [class.active]="activeTab === 'posts'" class="nav-item">Posty</a>
+        <a (click)="setActiveTab('info')" [class.active]="activeTab === 'info'" class="nav-item">Informacje</a>
+        <a (click)="setActiveTab('photos')" [class.active]="activeTab === 'photos'" class="nav-item">Zdjęcia</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    
+    <ng-container *ngIf="activeTab === 'posts'">
+      <div class="col-lg-7 order-2 order-lg-1">
+          <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
+      </div>
+
+      <div class="col-lg-5 order-1 order-lg-2">
+        <div class="card custom-card p-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="text-white fw-bold m-0">Zdjęcia</h5>
+              <a (click)="togglePhotosModal()" class="text-primary text-decoration-none" style="cursor: pointer;">Zobacz wszystkie</a>
+          </div>
+          <div class="row g-1 rounded overflow-hidden">
+              <div class="col-4" *ngFor="let photo of allPhotos.slice(0,9)">
+                <img [src]="photo.url" 
+                     class="img-fluid object-fit-cover w-100 h-100 photo-hover" 
+                     style="aspect-ratio: 1; cursor: pointer;"
+                     (click)="openPostFromPhoto(photo.postId)">
+              </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab === 'photos'">
+      <div class="col-12">
+        <div class="card custom-card p-3">
+          <h3 class="text-white mb-3">Wszystkie zdjęcia</h3>
+          <div class="row g-2">
+             <div class="col-6 col-md-3" *ngFor="let photo of allPhotos">
+                <img [src]="photo.url" 
+                     class="img-fluid rounded w-100 photo-hover" 
+                     style="aspect-ratio: 1; object-fit: cover; cursor: pointer;"
+                     (click)="openPostFromPhoto(photo.postId)">
+             </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab === 'info'">
+      <div class="col-12">
+        <div class="card custom-card p-4">
+          <h3 class="text-white mb-4">Szczegółowe informacje</h3>
+          <div class="text-secondary">
+             <p>Tutaj powinny pojawić się szczegółowe informacje.</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+</div>
+
+<div *ngIf="isPhotosModalOpen" class="photo-modal-overlay" (click)="togglePhotosModal()">
+  <div class="photo-modal-content card custom-card" (click)="$event.stopPropagation()">
+    <div class="d-flex justify-content-between align-items-center p-3 border-bottom border-secondary">
+      <h5 class="text-white m-0">Zdjęcia</h5>
+      <button class="btn btn-sm btn-dark text-white rounded-circle" (click)="togglePhotosModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="modal-body p-3" style="max-height: 70vh; overflow-y: auto;">
+      <div class="row g-2">
+        <div class="col-4 col-md-3" *ngFor="let photo of allPhotos">
+           <img [src]="photo.url" 
+                class="img-fluid rounded w-100 photo-hover" 
+                style="aspect-ratio: 1; object-fit: cover; cursor: pointer;"
+                (click)="openPostFromPhoto(photo.postId)">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="viewingPost" class="post-view-overlay" (click)="closePostView()">
+  <button class="btn btn-dark rounded-circle position-absolute top-0 end-0 m-4 text-white fs-4" 
+          style="z-index: 1060;" 
+          (click)="closePostView()">
+      <i class="bi bi-x-lg"></i>
+  </button>
+
+  <div class="post-view-content" (click)="$event.stopPropagation()">
+     <app-post-card [post]="viewingPost"></app-post-card>
+  </div>
+</div>

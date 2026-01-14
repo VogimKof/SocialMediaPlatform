@@ -1,0 +1,110 @@
+.custom-card {
+    background-color: #242526;
+    border: none;
+    border-radius: 8px;
+}
+
+.bg-dark-theme {
+    background-color: #18191a;
+}
+
+.nav-item {
+    cursor: pointer;
+    text-decoration: none;
+    color: #b0b3b8;
+    padding-bottom: 8px;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+    color: white;
+    background-color: rgba(255,255,255,0.05);
+    border-radius: 4px 4px 0 0;
+}
+
+.nav-item.active {
+    color: blue;
+    border-bottom-color: #2d88ff;
+}
+
+.transition-btn {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.photo-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1050;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.photo-modal-content {
+    width: 90%;
+    max-width: 800px;
+    background-color: #242526;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    animation: slideIn 0.3s ease-out;
+}
+
+
+
+.photo-hover {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.photo-hover:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+}
+
+.photo-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1050; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.photo-modal-content {
+    width: 90%;
+    max-width: 800px;
+    background-color: #242526;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    animation: slideIn 0.3s ease-out;
+}
+
+.post-view-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1060;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.post-view-content {
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: zoomIn 0.2s ease-out;
+}
+

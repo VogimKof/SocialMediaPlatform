@@ -6,4 +6,6 @@ export interface User {
   email?: string
   avatarUrl?: string;
   isActive?: boolean;
+  bgUrl?: string;
+
 }
