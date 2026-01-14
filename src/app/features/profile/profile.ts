@@ -4,6 +4,7 @@ import { PostCardComponent } from '../../shared/components/post-card/post-card';
 import { Post } from '../../core/models/post.model';
 import { User } from '../../core/models/user.model';
 import { FeedService } from '../../core/services/feed.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface Photo {
   url: string;
@@ -25,35 +26,36 @@ export class Profile implements OnInit {
   
   viewingPost: Post | null = null;
 
-  user: User = {
-    id: 1,
-    firstName: 'Adam',
-    lastName: 'Nowak',
-    sex: 'Mezczyzna',
-    email: 'user@example.com',
-    avatarUrl: 'https://placehold.co/168x168/2d88ff/ffffff?text=Adam',
-    bgUrl: 'https://placehold.co/1000x350/444/ffffff?text=Tło'
-  };
+  user!: User;
 
   posts: Post[] = [];
   allPhotos: Photo[] = []; 
 
-  constructor(private feedService: FeedService) {}
+  constructor(private feedService: FeedService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.loadPosts();
+    this.route.paramMap.subscribe(params => {
+      const userId = params.get('id');
+      if (userId) {
+        this.loadProfileData(+userId);
+      }
+    });
   }
 
-  loadPosts() {
-    this.feedService.getPosts().subscribe({
+  loadProfileData(userId: number) {
+    this.feedService.getUserById(userId).subscribe({
+      next: (userData) => {
+        this.user = userData;
+      },
+      error: (err) => console.error('Błąd pobierania użytkownika:', err)
+    });
+
+    this.feedService.getPostsByUserId(userId).subscribe({
       next: (fetchedPosts) => {
-        this.posts = fetchedPosts; 
-        
+        this.posts = fetchedPosts;
         this.generatePhotosFromPosts(fetchedPosts);
       },
-      error: (err) => {
-        console.error('Błąd pobierania postów na profilu:', err);
-      }
+      error: (err) => console.error('Błąd pobierania postów użytkownika:', err)
     });
   }
 

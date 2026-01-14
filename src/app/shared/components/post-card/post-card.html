@@ -1,7 +1,7 @@
 <div class="card custom-card mb-3" *ngIf="post">
   <div class="card-body p-0">
     
-    <div class="p-3 d-flex align-items-center">
+    <div class="p-3 d-flex align-items-center" (click)="goToUserProfile()">
       <img [src]="post.author.avatarUrl" alt="Avatar" class="author-avatar rounded-circle me-3">
       <div>
         <h6 class="card-title mb-0 text-white fw-bold">{{ post.author.firstName + ' ' + post.author.lastName }}</h6>

@@ -5,6 +5,7 @@ import { Post } from '../../../core/models/post.model';
 import { FeedService } from '../../../core/services/feed.service';
 import { Comment } from '../../../core/models/comment.model';
 import { AutofocusDirective } from '../../directives/autofocus-directive';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-card',
@@ -24,7 +25,15 @@ export class PostCardComponent {
   newCommentContent: string = '';
   isAddingComment = false;
 
-  constructor(private feedService: FeedService) {}
+  constructor(private feedService: FeedService, private router: Router) {}
+
+    goToUserProfile() {
+      if (this.post.author && this.post.author.id) {
+        this.router.navigate(['/profile', this.post.author.id]);
+      } else {
+        console.warn('Brak ID autora posta, nie można przejść do profilu.');
+      }
+    }
 
     toggleLike() {
       const previousState = this.post.isLikedByCurrentUser;

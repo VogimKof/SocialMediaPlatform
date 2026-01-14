@@ -9,5 +9,5 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'feed', component: FeedComponent } ,
-  { path: 'profile', component: Profile }
+  { path: 'profile/:id', component: Profile }
 ];

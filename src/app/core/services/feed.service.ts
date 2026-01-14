@@ -11,6 +11,7 @@ import { Comment } from '../models/comment.model';
 export class FeedService {
   private postsUrl = 'http://localhost:8080/api/posts';
   private contactsUrl = '/assets/mock-data/contacts.json';
+  private usersUrl = 'http://localhost:8080/api/users';
 
   constructor(private http: HttpClient) {}
 
@@ -20,13 +21,33 @@ export class FeedService {
     );
   }
 
+  getPostsByUserId(userId: number): Observable<Post[]> {
+    return this.http.get<any[]>(`${this.postsUrl}/user/${userId}`).pipe(
+      map(dtoList => dtoList.map(dto => this.mapToPost(dto)))
+    );
+  }
+
+  getUserById(userId: number): Observable<User> {
+    return this.http.get<any>(`${this.usersUrl}/${userId}`).pipe(
+      map(dto => ({
+        id: dto.id,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+        sex: dto.sex || 'other',
+        email: dto.email,
+        avatarUrl: dto.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${dto.firstName?.charAt(0) || 'U'}`,
+        bgUrl: dto.bgUrl || 'https://placehold.co/1000x350/444/ffffff?text=Tło'
+      }))
+    );
+  }
+
   private mapToPost(dto: any): Post {
     return {
       id: dto.postId,
       content: dto.content,
       imageUrl: dto.imageUrl,
       author: {
-        id: 0, 
+        id: dto.userId, 
         firstName: dto.firstName || 'Użytkownik',
         lastName: dto.lastName || '',
         sex: 'other',
@@ -135,4 +156,5 @@ export class FeedService {
       map(dto => this.mapToPost(dto))
     );
   }
+  
 }
