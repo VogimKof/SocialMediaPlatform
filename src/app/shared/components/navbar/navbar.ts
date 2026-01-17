@@ -14,6 +14,7 @@ export class NavbarComponent {
   isMenuOpen = false;
   isNotificationsOpen = false;
   isMessagesOpen = false;
+  currentUserId: number | null = null;
 
   messages = [
     { id: 1, sender: 'Jan Kowalski', text: 'Cześć! Idziemy na kawę?', time: '10 min temu', isRead: false, avatar: 'https://placehold.co/40/007bff/ffffff?text=JK' },
@@ -31,6 +32,15 @@ export class NavbarComponent {
   ];
 
   constructor(private authService: AuthService, private router: Router){}
+
+  ngOnInit() {
+    this.authService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.currentUserId = user.id;
+      },
+      error: (err) => console.error('Nie udało się pobrać ID użytkownika', err)
+    });
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

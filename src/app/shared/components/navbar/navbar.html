@@ -150,14 +150,11 @@
             style="right: 0; min-width: 200px;">
                     
           <li>
-            <a class="dropdown-item d-flex align-items-center gap-2" href="/feed" (click)="toggleMenu()">
+            <a class="dropdown-item d-flex align-items-center gap-2" 
+              [routerLink]="['/profile', currentUserId]" 
+              (click)="toggleMenu()"
+              *ngIf="currentUserId">
               <i class="bi bi-person-circle"></i> Twój profil
-            </a>
-          </li>
-          
-          <li>
-            <a class="dropdown-item d-flex align-items-center gap-2" href="/feed" (click)="toggleMenu()">
-              <i class="bi bi-gear-fill"></i> Ustawienia
             </a>
           </li>
 

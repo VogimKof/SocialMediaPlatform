@@ -5,6 +5,7 @@ import { Post } from '../../core/models/post.model';
 import { User } from '../../core/models/user.model';
 import { FeedService } from '../../core/services/feed.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 interface Photo {
   url: string;
@@ -23,7 +24,7 @@ export class Profile implements OnInit {
   isFriend: boolean = false;
   activeTab: string = 'posts';
   isPhotosModalOpen: boolean = false;
-  
+  isOwnProfile: boolean = false;
   viewingPost: Post | null = null;
 
   user!: User;
@@ -31,13 +32,18 @@ export class Profile implements OnInit {
   posts: Post[] = [];
   allPhotos: Photo[] = []; 
 
-  constructor(private feedService: FeedService, private route: ActivatedRoute) {}
+  constructor(
+    private feedService: FeedService,  
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const userId = params.get('id');
       if (userId) {
         this.loadProfileData(+userId);
+        this.checkIfOwnProfile(+userId);
       }
     });
   }
@@ -56,6 +62,15 @@ export class Profile implements OnInit {
         this.generatePhotosFromPosts(fetchedPosts);
       },
       error: (err) => console.error('Błąd pobierania postów użytkownika:', err)
+    });
+  }
+
+  private checkIfOwnProfile(profileId: number) {
+    this.authService.getCurrentUser().subscribe({
+      next: (currentUser) => {
+        this.isOwnProfile = currentUser.id == profileId;
+      },
+      error: () => this.isOwnProfile = false
     });
   }
 
