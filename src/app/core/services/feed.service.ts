@@ -156,5 +156,17 @@ export class FeedService {
       map(dto => this.mapToPost(dto))
     );
   }
-  
+
+  uploadAvatar(userId: number, avatarUrl: string): Observable<any> {
+    return this.http.post(`${this.usersUrl}/${userId}/avatar`, { avatarUrl });
+  }
+
+  uploadBackground(userId: number, bgUrl: string): Observable<any> {
+    return this.http.post(`${this.usersUrl}/${userId}/background`, { bgUrl });
+  }
+
+  updateUser(userId: number, userData: Partial<User>): Observable<User> {
+    return this.http.put<User>(`${this.usersUrl}/${userId}`, userData);
+  }
+
 }
