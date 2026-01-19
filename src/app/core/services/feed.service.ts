@@ -35,7 +35,7 @@ export class FeedService {
         lastName: dto.lastName,
         sex: dto.sex || 'other',
         email: dto.email,
-        avatarUrl: dto.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${dto.firstName?.charAt(0) || 'U'}`,
+        avatarUrl: dto.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${dto.firstName?.charAt(0)}`,
         bgUrl: dto.bgUrl || 'https://placehold.co/1000x350/444/ffffff?text=Tło'
       }))
     );
@@ -51,7 +51,7 @@ export class FeedService {
         firstName: dto.firstName || 'Użytkownik',
         lastName: dto.lastName || '',
         sex: 'other',
-        avatarUrl: `https://placehold.co/40/0d6efd/ffffff?text=${dto.firstName?.charAt(0) || 'U'}`
+        avatarUrl: dto.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${dto.firstName?.charAt(0)}`
       },
       timeAgo: this.formatDate(dto.createdAt),
       likes: dto.likesCount, 
@@ -120,11 +120,11 @@ export class FeedService {
       id: dto.id,
       content: dto.content,
       author: {
-        id: 0,
-        firstName: dto.username || 'Użytkownik',
-        lastName: '',
-        sex: 'other',
-        avatarUrl: `https://placehold.co/40/0d6efd/ffffff?text=${dto.username?.charAt(0) || 'U'}`
+        id: dto.userId,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+        sex: dto.sex,
+        avatarUrl: dto.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${dto.firstName?.charAt(0)}`
       },
       timeAgo: this.formatDate(dto.createdAt),
       likes: 0,
