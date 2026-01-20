@@ -24,7 +24,8 @@
                          class="form-control custom-input" 
                          [class.is-invalid]="isSubmitted && registerForm.get('firstName')?.invalid"
                          formControlName="firstName" 
-                         placeholder="Imię">
+                         placeholder="Imię"
+                         appAutofocus>
                   <div class="invalid-feedback">Imię jest wymagane.</div>
                 </div>
                 <div class="col-12 col-md-6">
@@ -83,7 +84,6 @@
                   <option value="" disabled selected>Choose...</option>
                   <option value="male">Mężczyzna</option>
                   <option value="female">Kobieta</option>
-                  <option value="other">Inna</option>
                 </select>
                 <div class="invalid-feedback">Wybierz płeć.</div>
               </div>

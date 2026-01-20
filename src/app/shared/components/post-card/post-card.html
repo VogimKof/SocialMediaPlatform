@@ -1,13 +1,25 @@
 <div class="card custom-card mb-3" *ngIf="post">
   <div class="card-body p-0">
     
-    <div class="p-3 d-flex align-items-center" (click)="goToUserProfile()">
-      <img [src]="post.author.avatarUrl" alt="Avatar" class="author-avatar rounded-circle me-3">
+    <div class="p-3 d-flex align-items-center" >
+      <img [src]="post.author.avatarUrl" (click)="goToUserProfile()" alt="Avatar" class="author-avatar rounded-circle me-3" style="cursor:pointer">
       <div>
-        <h6 class="card-title mb-0 text-white fw-bold">{{ post.author.firstName + ' ' + post.author.lastName }}</h6>
+        <h6 class="card-title mb-0 text-white fw-bold" (click)="goToUserProfile()" style="cursor:pointer">{{ post.author.firstName + ' ' + post.author.lastName }}</h6>
         <small class="text-secondary" style="font-size: 0.8rem;">{{ post.timeAgo }} · <i class="bi bi-globe-americas"></i></small>
       </div>
-      <div class="ms-auto text-secondary options-icon"><i class="bi bi-three-dots"></i></div>
+      
+      <div class="ms-auto dropdown" *ngIf="isAuthor">
+        <div class="text-secondary options-icon" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer">
+          <i class="bi bi-three-dots"></i>
+        </div>
+        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+          <li>
+            <button class="dropdown-item text-danger d-flex align-items-center gap-2" (click)="deletePost()">
+              <i class="bi bi-trash"></i> Usuń post
+            </button>
+          </li>
+          </ul>
+      </div>
     </div>
 
     <div class="px-3 mb-3">

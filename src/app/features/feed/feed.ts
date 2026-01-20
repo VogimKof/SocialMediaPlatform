@@ -18,6 +18,7 @@ export class FeedComponent implements OnInit {
   posts: Post[] = [];
   contacts: User[] = [];
   currentUser: User | null = null;
+  avatarUrl: string =''
   newPostContent: string = '';
   selectedFile: File | null = null;
   imagePreview: string | null = null;
@@ -44,9 +45,10 @@ export class FeedComponent implements OnInit {
 
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
+        this.avatarUrl = user.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${user.firstName?.charAt(0)}`
         this.currentUser = user;
       },
-      error: (err) => console.error('Błąd pobierania danych użytkownika', err)
+      error: (err) => console.error('Nie udało się pobrać ID użytkownika', err)
     });
   }
 
@@ -82,5 +84,9 @@ export class FeedComponent implements OnInit {
         alert('Nie udało się opublikować postu.');
       }
     });
+  }
+
+  onPostRemoved(postId: number) {
+    this.posts = this.posts.filter(p => p.id !== postId);
   }
 }

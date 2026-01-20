@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { first } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
+import { AutofocusDirective } from '../../shared/directives/autofocus-directive';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, AutofocusDirective],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })

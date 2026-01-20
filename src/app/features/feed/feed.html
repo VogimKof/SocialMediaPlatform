@@ -9,7 +9,7 @@
       <div class="card custom-card mb-3">
         <div class="card-body">
           <div class="d-flex align-items-center mb-2">
-            <img [src]="currentUser?.avatarUrl || 'https://placehold.co/40/0d6efd/ffffff?text=User'" 
+            <img [src]="avatarUrl" 
                 class="rounded-circle me-2 border border-secondary"
                 style="width: 40px; height: 40px; object-fit: cover;">
             
@@ -48,8 +48,11 @@
         </div>
       </div>
 
-      <div *ngFor="let post of posts">
-        <app-post-card [post]="post"></app-post-card>
+      <div class="posts-container">
+        <app-post-card 
+          *ngFor="let post of posts" 
+          [post]="post"
+          (postDeleted)="onPostRemoved($event)"> </app-post-card>
       </div>
 
       <div *ngIf="posts.length === 0" class="text-center text-white mt-5">

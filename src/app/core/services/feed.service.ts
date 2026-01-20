@@ -168,5 +168,9 @@ export class FeedService {
   updateUser(userId: number, userData: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.usersUrl}/${userId}`, userData);
   }
+  
+  deletePost(postId: number): Observable<void> {
+    return this.http.delete<void>(`${this.postsUrl}/${postId}`);
+  }
 
 }

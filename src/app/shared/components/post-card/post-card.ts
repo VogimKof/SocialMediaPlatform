@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Post } from '../../../core/models/post.model';
@@ -7,6 +7,7 @@ import { Comment } from '../../../core/models/comment.model';
 import { AutofocusDirective } from '../../directives/autofocus-directive';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { User } from '../../../core/models/user.model';
 
 @Component({
   selector: 'app-post-card',
@@ -17,6 +18,7 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class PostCardComponent {
   @Input() post!: Post;
+  @Output() postDeleted = new EventEmitter<number>();
 
   @ViewChild('commentInput') commentInput!: ElementRef;
 
@@ -26,6 +28,7 @@ export class PostCardComponent {
   newCommentContent: string = '';
   isAddingComment = false;
   avatarUrl: string =''
+  currentUser: User | null = null;
 
   constructor(
     private feedService: FeedService,
@@ -36,10 +39,27 @@ export class PostCardComponent {
       this.authService.getCurrentUser().subscribe({
         next: (user) => {
           this.avatarUrl = user.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${user.firstName?.charAt(0)}`
+          this.currentUser = user;
         },
         error: (err) => console.error('Nie udało się pobrać ID użytkownika', err)
       });
     }
+
+    get isAuthor(): boolean {
+      return this.post.author.id === this.currentUser?.id;
+    }
+
+    deletePost() {
+    if (confirm('Czy na pewno chcesz usunąć ten post?')) {
+      this.feedService.deletePost(this.post.id).subscribe({
+        next: () => {
+          this.postDeleted.emit(this.post.id);
+          console.log('Post usunięty pomyślnie');
+        },
+        error: (err) => console.error('Błąd podczas usuwania posta:', err)
+      });
+    }
+  }
 
     goToUserProfile() {
       if (this.post.author && this.post.author.id) {
