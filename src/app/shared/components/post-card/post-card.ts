@@ -64,7 +64,6 @@ export class PostCardComponent {
       this.feedService.likePost(this.post.id).subscribe({
           next: (serverLikeCount) => {
               this.post.likes = serverLikeCount;
-              console.log('Lajk zsynchronizowany z backendem');
           },
           error: () => {
               this.post.isLikedByCurrentUser = previousState;

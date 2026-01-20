@@ -31,7 +31,6 @@ export class FeedComponent implements OnInit {
     this.feedService.getPosts().subscribe({
       next: (data) => {
         this.posts = data;
-        console.log('Pobrano posty:', this.posts);
       },
       error: (err) => console.error('Błąd pobierania postów', err)
     });

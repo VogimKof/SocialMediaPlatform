@@ -158,7 +158,7 @@ export class Profile implements OnInit {
           this.avatarPreview = null;
           this.loadProfileData(this.user.id);
         },
-        error: (err) => console.error('Błąd zapisu awatara:', err)
+        error: (err) => console.error('Błąd zapisu profilowego:', err)
       });
     }
   }
@@ -170,7 +170,7 @@ export class Profile implements OnInit {
           this.backgroundPreview = null;
           this.loadProfileData(this.user.id);
         },
-        error: (err) => console.error('Błąd zapisu tła:', err)
+        error: (err) => console.error('Błąd zapisu background:', err)
       });
     }
   }

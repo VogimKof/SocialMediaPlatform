@@ -24,9 +24,8 @@ export class AuthService {
       tap(response => {
         if (response && response.authenticationToken) {
           localStorage.setItem('access_token', response.authenticationToken);
-          console.log('Token zapisany pomyślnie');
         } else {
-          console.error('Błąd: Backend nie zwrócił pola authenticationToken', response);
+          console.error('Brak pola authenticationToken', response);
         }
       })
     );
@@ -34,7 +33,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('access_token');
-    console.log('Użytkownik wylogowany');
+    console.log('User logout');
   }
 
   getCurrentUser(): Observable<User> {
