@@ -6,6 +6,7 @@ import { FeedService } from '../../../core/services/feed.service';
 import { Comment } from '../../../core/models/comment.model';
 import { AutofocusDirective } from '../../directives/autofocus-directive';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-post-card',
@@ -24,8 +25,21 @@ export class PostCardComponent {
   showComments = false;
   newCommentContent: string = '';
   isAddingComment = false;
+  avatarUrl: string =''
 
-  constructor(private feedService: FeedService, private router: Router) {}
+  constructor(
+    private feedService: FeedService,
+    private authService: AuthService,
+    private router: Router) {}
+
+    ngOnInit() {
+      this.authService.getCurrentUser().subscribe({
+        next: (user) => {
+          this.avatarUrl = user.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${user.firstName?.charAt(0)}`
+        },
+        error: (err) => console.error('Nie udało się pobrać ID użytkownika', err)
+      });
+    }
 
     goToUserProfile() {
       if (this.post.author && this.post.author.id) {

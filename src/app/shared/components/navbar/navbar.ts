@@ -15,6 +15,7 @@ export class NavbarComponent {
   isNotificationsOpen = false;
   isMessagesOpen = false;
   currentUserId: number | null = null;
+  avatarUrl: string ='';
 
   messages = [
     { id: 1, sender: 'Jan Kowalski', text: 'Cześć! Idziemy na kawę?', time: '10 min temu', isRead: false, avatar: 'https://placehold.co/40/007bff/ffffff?text=JK' },
@@ -37,6 +38,7 @@ export class NavbarComponent {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
         this.currentUserId = user.id;
+        this.avatarUrl = user.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${user.firstName?.charAt(0)}`
       },
       error: (err) => console.error('Nie udało się pobrać ID użytkownika', err)
     });

@@ -142,7 +142,7 @@
       <div class="position-relative ms-2">
         
         <div class="profile-circle" (click)="toggleMenu()" style="cursor: pointer;">
-          <img src="https://placehold.co/40/0d6efd/ffffff?text=User" alt="Profile" class="rounded-circle">
+          <img [src]="avatarUrl" alt="Profile" class="rounded-circle">
         </div>
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark position-absolute mt-2 shadow show" 
