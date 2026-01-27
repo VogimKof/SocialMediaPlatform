@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { delay, Observable, of } from 'rxjs';
+import { delay, map, Observable, of } from 'rxjs';
 import { Post } from '../models/post.model';
 import { User } from '../models/user.model';
 import { Comment } from '../models/comment.model';
@@ -9,99 +9,128 @@ import { Comment } from '../models/comment.model';
   providedIn: 'root'
 })
 export class FeedService {
-  private postsUrl = '/assets/mock-data/posts.json';
+  private postsUrl = 'http://localhost:8080/api/posts';
   private contactsUrl = '/assets/mock-data/contacts.json';
-  private lastId = 1000;
+  private usersUrl = 'http://localhost:8080/api/users';
 
   constructor(private http: HttpClient) {}
 
   getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.postsUrl);
+    return this.http.get<any[]>(`${this.postsUrl}/all`).pipe(
+      map(dtoList => dtoList.map(dto => this.mapToPost(dto)))
+    );
+  }
+
+  getPostsByUserId(userId: number): Observable<Post[]> {
+    return this.http.get<any[]>(`${this.postsUrl}/user/${userId}`).pipe(
+      map(dtoList => dtoList.map(dto => this.mapToPost(dto)))
+    );
+  }
+
+  getUserById(userId: number): Observable<User> {
+    return this.http.get<any>(`${this.usersUrl}/${userId}`).pipe(
+      map(dto => ({
+        id: dto.id,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+        sex: dto.sex || 'other',
+        email: dto.email,
+        avatarUrl: dto.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${dto.firstName?.charAt(0)}`,
+        bgUrl: dto.bgUrl || 'https://placehold.co/1000x350/444/ffffff?text=Tło'
+      }))
+    );
+  }
+
+  private mapToPost(dto: any): Post {
+    return {
+      id: dto.postId,
+      content: dto.content,
+      imageUrl: dto.imageUrl,
+      author: {
+        id: dto.userId, 
+        firstName: dto.firstName || 'Użytkownik',
+        lastName: dto.lastName || '',
+        sex: 'other',
+        avatarUrl: dto.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${dto.firstName?.charAt(0)}`
+      },
+      timeAgo: this.formatDate(dto.createdAt),
+      likes: dto.likesCount, 
+      comments: dto.commentsCount,
+      shares: 0,
+      isLikedByCurrentUser: dto.likedByCurrentUser
+    };
+  }
+
+  private formatDate(dateValue: any): string {
+    if (!dateValue) return 'chwilę temu';
+
+    const date = new Date(dateValue);
+    
+    if (isNaN(date.getTime())) return 'chwilę temu';
+
+    const now = new Date();
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    if (diffInSeconds < 60) {
+      return 'chwilę temu';
+    }
+
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes} min temu`;
+    }
+
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+      return `${diffInHours} godz. temu`;
+    }
+
+    return date.toLocaleString('pl-PL', { 
+      day: '2-digit', 
+      month: '2-digit', 
+      year: 'numeric', 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
   }
 
   getContacts(): Observable<User[]> {
     return this.http.get<User[]>(this.contactsUrl);
   }
 
-  likePost(postId: number): Observable<boolean> {
-    return of(true).pipe(delay(500)); 
+  likePost(postId: number): Observable<number> {
+    return this.http.post<number>(`${this.postsUrl}/${postId}/like`, {});
   }
 
-  getCommentsForPost(postId: number): Observable<Comment[]> {    
-    const mockComments: Comment[] = [
-      {
-        id: 1,
-        author: { 
-          id: 60, 
-          username: 'Malenia, Blade of Miquella', 
-          avatarUrl: 'https://placehold.co/40/5d4037/ffffff?text=MB'
-        },
-        content: 'Jestem Malenia, miecz Miquelli. I nigdy nie zaznałam porażki...',
-        timeAgo: '2 min temu',
-        likes: 999,
-        isLikedByCurrentUser: false,
-        replyNumber: 2
-      },
-      {
-        id: 2,
-        author: { 
-          id: 50, 
-          username: 'Geralt z Rivii', 
-          avatarUrl: 'https://placehold.co/40/424242/ffffff?text=GR' 
-        },
-        content: 'Zlecenie wykonane. Chociaż za taką liczbę lajków spodziewałem się czegoś trudniejszego niż zwykły utopiec.',
-        timeAgo: '1 min temu',
-        likes: 55,
-        isLikedByCurrentUser: false,
-        replyNumber: 2
-      },
-      {
-        id: 3,
-        author: { 
-          id: 51, 
-          username: 'Lara Croft', 
-          avatarUrl: 'https://placehold.co/40/2e7d32/ffffff?text=LC' 
-        },
-        content: 'Znalazłam ukryte przejście w sekcji komentarzy. Wygląda na to, że prowadzi do zapomnianego grobowca kodu.',
-        timeAgo: '15 min temu',
-        likes: 120,
-        isLikedByCurrentUser: true,
-        replyNumber: 0
-      },
-      {
-        id: 4,
-        author: { 
-          id: 52, 
-          username: 'Mario', 
-          avatarUrl: 'https://placehold.co/40/d32f2f/ffffff?text=M' 
-        },
-        content: 'Mamma mia! Ten post jest lepszy niż super grzyb! It’s-a me, Mario!',
-        timeAgo: '1 godz. temu',
-        likes: 99,
-        isLikedByCurrentUser: false,
-        replyNumber: 0
-      }
-    ]
-
-    return of(mockComments).pipe(delay(800));
+  getCommentsForPost(postId: number): Observable<Comment[]> {
+    const url = `http://localhost:8080/api/comments/${postId}/comments`;
+    return this.http.get<any[]>(url).pipe(
+      map(dtos => dtos.map(dto => this.mapToComment(dto)))
+    );
   }
 
   addComment(postId: number, content: string): Observable<Comment> {
-    const mockComment: Comment = {
-      id: 7,
+    return this.http.post<any>(`http://localhost:8080/api/comments/${postId}/addComment`, { content }).pipe(
+      map(dto => this.mapToComment(dto))
+    );
+  }
+
+  private mapToComment(dto: any): Comment {
+    return {
+      id: dto.id,
+      content: dto.content,
       author: {
-        id: 999,
-        username: 'Twój Profil',
-        avatarUrl: 'https://placehold.co/40/0d6efd/ffffff?text=User'
+        id: dto.userId,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+        sex: dto.sex,
+        avatarUrl: dto.avatarUrl || `https://placehold.co/168x168/2d88ff/ffffff?text=${dto.firstName?.charAt(0)}`
       },
-      content: content,
-      timeAgo: 'chwilę temu',
+      timeAgo: this.formatDate(dto.createdAt),
       likes: 0,
       isLikedByCurrentUser: false,
-      replyNumber: 0
+      replyNumber: dto.replyNumber
     };
-
-    return of(mockComment).pipe(delay(500));
   }
 
   likeComment(commentId: number): Observable<boolean> {
@@ -109,49 +138,39 @@ export class FeedService {
   }
 
   getRepliesForComment(commentId: number): Observable<Comment[]> {
-    const mockReplies: Comment[] = [
-      {
-        id: 300 + commentId,
-        author: { id: 55, username: 'Adam Nowy', avatarUrl: 'https://placehold.co/40/6610f2/ffffff?text=AN' },
-        content: `To jest odpowiedź pobrana z serwera dla komentarza ${commentId}`,
-        timeAgo: '1 min temu',
-        likes: 2,
-        replyNumber: 0
-      },
-      {
-        id: 301 + commentId,
-        author: { id: 56, username: 'Ewa Baza', avatarUrl: 'https://placehold.co/40/d63384/ffffff?text=EB' },
-        content: 'Potwierdzam, działa!',
-        timeAgo: '30 sek. temu',
-        likes: 0,
-        replyNumber: 0
-      }
-    ];
-
-    const shouldFail = false;
-
-    if (shouldFail) {
-        return new Observable(observer => {
-            setTimeout(() => observer.error('Błąd serwera 500'), 1000);
-        });
-    }
-
-    return of(mockReplies).pipe(delay(1000));
+    return this.http.get<any[]>(`http://localhost:8080/api/comments/${commentId}/replies`).pipe(
+      map(dtos => dtos.map(dto => this.mapToComment(dto)))
+    );
   }
 
   addReply(commentId: number, content: string): Observable<Comment> {
-    const newReply: Comment = {
-      id: ++this.lastId,
-      author: {
-        id: 999,
-        username: 'Twój Profil',
-        avatarUrl: 'https://placehold.co/40/0d6efd/ffffff?text=User'
-      },
-      content: content,
-      timeAgo: 'chwilę temu',
-      likes: 0,
-      replyNumber: 0
-    };
-    return of(newReply).pipe(delay(500));
+    console.log(commentId, content)
+    return this.http.post<any>(`http://localhost:8080/api/comments/${commentId}/reply`, { content }).pipe(
+      map(dto => this.mapToComment(dto))
+    );
   }
+
+  createPost(content: string, imageUrl?: string): Observable<Post> {
+    const body = { content, imageUrl };
+    return this.http.post<any>(`${this.postsUrl}/add`, body).pipe(
+      map(dto => this.mapToPost(dto))
+    );
+  }
+
+  uploadAvatar(userId: number, avatarUrl: string): Observable<any> {
+    return this.http.post(`${this.usersUrl}/${userId}/avatar`, { avatarUrl });
+  }
+
+  uploadBackground(userId: number, bgUrl: string): Observable<any> {
+    return this.http.post(`${this.usersUrl}/${userId}/background`, { bgUrl });
+  }
+
+  updateUser(userId: number, userData: Partial<User>): Observable<User> {
+    return this.http.put<User>(`${this.usersUrl}/${userId}`, userData);
+  }
+  
+  deletePost(postId: number): Observable<void> {
+    return this.http.delete<void>(`${this.postsUrl}/${postId}`);
+  }
+
 }

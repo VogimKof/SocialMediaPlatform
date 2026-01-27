@@ -23,7 +23,8 @@
                        class="form-control custom-input py-3" 
                        [class.is-invalid]="isSubmitted && loginForm.get('email')?.invalid"
                        formControlName="email" 
-                       placeholder="Adres e-mail">
+                       placeholder="Adres e-mail"
+                       appAutofocus>
                 <div class="invalid-feedback">Wpisz poprawny adres e-mail.</div>
               </div>
 

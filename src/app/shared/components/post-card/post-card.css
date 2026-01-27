@@ -153,3 +153,12 @@
 .your-comment-bg{
   background-color: #1b1b1b;
 }
+
+.post-image-container {
+  max-height: 500px;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background-color: #18191a;
+}
